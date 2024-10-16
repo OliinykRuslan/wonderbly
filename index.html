@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<!--<![endif]-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+    <title>Wonderbly</title>
+</head>
+
+<body>
+    <header class="header">
+        <h4 class="header-title">Me and My Big Sibling</h4>
+        <a href="#" class="close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"></path>
+            </svg>
+        </a>
+    </header>
+    <main>
+        <div class="step-wrap">
+            <h1 class="step-title">Step <span class="step-number">1</span> of 2</h1>
+            <h2 class="step-subtitle">Let's add the oldest child to the story!</h2>
+        </div>
+        <div class="avatar-preview-container">
+            <img src="assets/img/avatar-04.png" alt="avatar" id="avatar-preview">
+        </div>
+        <div class="step-content">
+            <form>
+                <!-- oldest form -->
+                <div class="form oldest-form">
+                    <div class="tab-nav">
+                        <button type="button" class="tab-nav-item active">Name</button>
+                        <button type="button" class="tab-nav-item">Character</button>
+                        <button type="button" class="tab-nav-item">Age</button>
+                    </div>
+                    <div class="step-fields">
+                        <!-- 1 -->
+                        <div class="step-item step-1">
+                            <div class="form-group">
+                                <label for="name">What's the oldest child's name?</label>
+                                <input type="text" id="name">
+                            </div>
+                            <div class="radiogroup">
+                                <div class="radio-button">
+                                    <input class="radio-item radio-input" type="radio" id="boy" name="gender" value="boy" checked="">
+                                    <label class="radio-label" for="boy">Boy</label>
+                                </div>
+                                <div class="radio-button">
+                                    <input class="radio-item radio-input" type="radio" id="girl" name="gender" value="girl">
+                                    <label class="radio-label" for="girl">Girl</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 2 -->
+                        <div class="step-item step-2">
+                            <h4 class="step-field-title">Choose their character</h4>
+                            <div class="character-wrap">
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-1" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-1">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-01.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-2" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-2">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-02.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-3" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-3">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-03.png">
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-4" type="radio" name="characters" checked>
+                                    <label class="choose-image-label" for="characters-4">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-04.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-5" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-5">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-05.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-6" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-6">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-06.png">
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-7" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-7">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-07.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-8" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-8">
+                                        <span class="img-wrap"> 
+                                            <img alt="" src="assets/img/avatar-08.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="characters-9" type="radio" name="characters">
+                                    <label class="choose-image-label" for="characters-9">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/avatar-09.png">
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 3 -->
+                        <div class="step-item step-3">
+                            <h4 class="step-field-title">Add their age</h4>
+                            <div class="age-wrap">
+                                <div class="radiogroup">
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age" type="radio" id="6" name="age" value="6">
+                                        <label class="radio-label" for="6">6</label>
+                                    </div>
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age" type="radio" id="7" name="age" value="7" checked="">
+                                        <label class="radio-label" for="7">7+</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button type="submit" class="submit-btn" id="continue-btn">Continue</button>
+                        <a href="#" class="back-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="CreationFlowStep_backIcon__1WNIb"><path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Back to the product page
+                        </a>
+                    </div>
+                </div>
+
+                <!-- youngest form -->
+                <div class="form youngest-form d-none">
+                    <div class="tab-nav">
+                        <button type="button" class="tab-nav-item active">Name</button>
+                        <button type="button" class="tab-nav-item">Character</button>
+                        <button type="button" class="tab-nav-item">Age</button>
+                    </div>
+                    <div class="step-fields">
+                        <!-- 1 -->
+                        <div class="step-item step-1">
+                            <div class="form-group">
+                                <label for="name">What's the youngest child's name?</label>
+                                <input type="text" id="name">
+                            </div>
+                            <div class="radiogroup">
+                                <div class="radio-button">
+                                    <input class="radio-item radio-input" type="radio" id="y-boy" name="y-gender" value="boy" checked="">
+                                    <label class="radio-label" for="y-boy">Boy</label>
+                                </div>
+                                <div class="radio-button">
+                                    <input class="radio-item radio-input" type="radio" id="y-girl" name="y-gender" value="girl">
+                                    <label class="radio-label" for="y-girl">Girl</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 2 -->
+                        <div class="step-item step-2">
+                            <h4 class="step-field-title">Choose their character</h4>
+                            <div class="character-wrap">
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-1" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-1">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-01.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-2" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-2">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-02.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-3" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-3">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-03.png">
+                                        </span>
+                                    </label>
+                                </div>
+    
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-4" type="radio" name="y-characters" checked>
+                                    <label class="choose-image-label" for="y-characters-4">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-04.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-5" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-5">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-05.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-6" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-6">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-06.png">
+                                        </span>
+                                    </label>
+                                </div>
+    
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-7" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-7">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-07.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-8" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-8">
+                                        <span class="img-wrap"> 
+                                            <img alt="" src="assets/img/y-avatar-08.png">
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="character-item">
+                                    <input class="radio-item choose-image-radio" id="y-characters-9" type="radio" name="y-characters">
+                                    <label class="choose-image-label" for="y-characters-9">
+                                        <span class="img-wrap">
+                                            <img alt="" src="assets/img/y-avatar-09.png">
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 3 -->
+                        <div class="step-item step-3-youngest">
+                            <h4 class="step-field-title">Add their age</h4>
+                            <div class="age-wrap">
+                                <div class="radiogroup">
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age-youngest" type="radio" id="under-1" name="age-youngest" value="under-1">
+                                        <label class="radio-label" for="under-1">Under 1</label>
+                                    </div>
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age-youngest" type="radio" id="age-1" name="age-youngest" value="age-1">
+                                        <label class="radio-label" for="age-1">1</label>
+                                    </div>
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age-youngest" type="radio" id="age-2" name="age-youngest" value="age-2">
+                                        <label class="radio-label" for="age-2">2</label>
+                                    </div>
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age-youngest" type="radio" id="age-3" name="age-youngest" value="age-3">
+                                        <label class="radio-label" for="age-3">3</label>
+                                    </div>
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age-youngest" type="radio" id="age-4" name="age-youngest" value="age-4">
+                                        <label class="radio-label" for="age-4">4</label>
+                                    </div>
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age-youngest" type="radio" id="age-5" name="age-youngest" value="age-5" checked="">
+                                        <label class="radio-label" for="age-5">5</label>
+                                    </div>
+                                    <div class="radio-button">
+                                        <input class="radio-item radio-age-youngest" type="radio" id="age-6" name="age-youngest" value="age-6">
+                                        <label class="radio-label" for="age-6">6</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button type="submit" class="submit-btn" id="continue-btn">Continue</button>
+                        <a href="#" class="back-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="CreationFlowStep_backIcon__1WNIb"><path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Back to the product page
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </main>
+
+    <!-- Javascript -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
