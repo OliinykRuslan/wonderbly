@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const avatarPreview = document.getElementById('avatar-preview');
+    const avatarPreview = document.getElementById('avatar-preview'); // Єдиний елемент для прев'ю аватара
+
     const genderRadios = document.querySelectorAll('.oldest-form .radio-input');    
     const genderRadios2 = document.querySelectorAll('.youngest-form .radio-input');
 
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let isYPrefixAdded = false;
 
-    // Show step
+    // Show step for oldest
     function showStep(index) {
         steps.forEach((step, idx) => step.style.display = idx === index ? 'block' : 'none');
         tabNavButtons.forEach((btn, idx) => {
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Show step2
+    // Show step for youngest
     function showStep2(index) {
         steps2.forEach((step, idx) => step.style.display = idx === index ? 'block' : 'none');
         tabNavButtons2.forEach((btn, idx) => {
@@ -44,19 +45,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Update avatar based on gender selection
+    // Update avatar based on gender selection for oldest
     function updateAvatarBasedOnGender(gender) {
         const prefix = isYPrefixAdded ? 'y-' : '';
         avatarPreview.src = `assets/img/${prefix}${gender === 'boy' ? 'avatar-04.png' : 'g-avatar-04.png'}`;
     }
 
-    // Update avatar based on character selection
+    // Update avatar based on gender selection for youngest
+    function updateAvatarBasedOnGender2(gender) {
+        avatarPreview.src = `assets/img/${gender === 'boy' ? 'y-avatar-04.png' : 'g-y-avatar-04.png'}`;
+    }
+
+    // Update avatar based on character selection for oldest
     function updateAvatarBasedOnCharacter() {
         const selectedCharacter = document.querySelector('.oldest-form .choose-image-radio:checked + label img').src;
         avatarPreview.src = selectedCharacter;
     }
 
-    // Event for gender change
+    // Update avatar based on character selection for youngest
+    function updateAvatarBasedOnCharacter2() {
+        const selectedCharacter = document.querySelector('.youngest-form .choose-image-radio:checked + label img').src;
+        avatarPreview.src = selectedCharacter;
+    }
+
+    // Event for gender change (oldest)
     genderRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             updateAvatarBasedOnGender(this.value);
@@ -68,47 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Event for character change
-    characterRadios.forEach(radio => {
-        radio.addEventListener('change', updateAvatarBasedOnCharacter);
-    });
-
-    // Event for "Continue" button
-    continueButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        if (currentStep < steps.length - 1) {
-            currentStep++;
-            maxStep = Math.max(currentStep, maxStep);
-            showStep(currentStep);
-        } else if (!isYPrefixAdded) {
-            const currentSrc = avatarPreview.src;
-            avatarPreview.src = currentSrc.replace(currentSrc.split('/').pop(), `y-${currentSrc.split('/').pop()}`);
-            isYPrefixAdded = true;
-            document.querySelector('.step-number').innerText = "2";
-            document.querySelector('.step-subtitle').innerText = "Splendid! Who's the youngest child?";
-            
-            document.querySelector('.oldest-form').classList.add('d-none');
-            document.querySelector('.youngest-form').classList.remove('d-none');
-
-            showStep(0);
-        }
-    });
-
-    // Initialize the first step
-    showStep(0);
-
-    // Update avatar based on gender selection (youngest form)
-    function updateAvatarBasedOnGender2(gender) {
-        avatarPreview.src = `assets/img/${gender === 'boy' ? 'y-avatar-04.png' : 'g-y-avatar-04.png'}`;
-    }
-
-    // Update avatar based on character selection (youngest form)
-    function updateAvatarBasedOnCharacter2() {
-        const selectedCharacter = document.querySelector('.youngest-form .choose-image-radio:checked + label img').src;
-        avatarPreview.src =  selectedCharacter;
-    }
-
-    // Event for gender change (youngest form)
+    // Event for gender change (youngest)
     genderRadios2.forEach(radio => {
         radio.addEventListener('change', function() {
             updateAvatarBasedOnGender2(this.value);
@@ -120,32 +92,57 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Event for character change (youngest form)
+    // Event for character change (oldest)
+    characterRadios.forEach(radio => {
+        radio.addEventListener('change', updateAvatarBasedOnCharacter);
+    });
+
+    // Event for character change (youngest)
     characterRadios2.forEach(radio => {
         radio.addEventListener('change', updateAvatarBasedOnCharacter2);
     });
 
+    // Event for "Continue" button (oldest)
+    continueButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            maxStep = Math.max(currentStep, maxStep);
+            showStep(currentStep);
+        } else if (!isYPrefixAdded) {
+            document.querySelector('.step-number').innerText = "2";
+            document.querySelector('.step-subtitle').innerText = "Splendid! Who's the youngest child?";
+            
+            document.querySelector('.oldest-form').classList.add('d-none');
+            document.querySelector('.youngest-form').classList.remove('d-none');
+
+            isYPrefixAdded = true;
+
+            // Установлюємо за замовчуванням аватар молодшої дитини при переході до першого кроку
+            const defaultGender = document.querySelector('.youngest-form .radio-input:checked')?.value || 'boy';
+            updateAvatarBasedOnGender2(defaultGender);
+
+            showStep2(0);
+        }
+    });
+
+    // Event for "Continue" button (youngest)
     continueButton2.addEventListener('click', function(event) {
         event.preventDefault();
-        if (currentStep2 < steps.length - 1) {
+        if (currentStep2 < steps2.length - 1) {
             currentStep2++;
             maxStep2 = Math.max(currentStep2, maxStep2);
             showStep2(currentStep2);
-        }
-        else if (!isYPrefixAdded) {
-            const currentSrc = avatarPreview.src;
-            avatarPreview.src = currentSrc.replace(currentSrc.split('/').pop(), `y-${currentSrc.split('/').pop()}`);
-            isYPrefixAdded = true;
-            showStep2(0);
-        } else  {
+        } else {
             window.location.href = '/preview';
         }
     });
 
-    // Initialize the first step (youngest form)
+    // Initialize the first steps
+    showStep(0);
     showStep2(0);
 
-    // Event for navigation buttons
+    // Navigation buttons for oldest
     tabNavButtons.forEach((btn, index) => {
         btn.addEventListener('click', function() {
             if (index <= maxStep) {
@@ -155,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Navigation buttons for youngest
     tabNavButtons2.forEach((btn, index) => {
         btn.addEventListener('click', function() {
             if (index <= maxStep2) {
@@ -163,5 +161,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
 });
