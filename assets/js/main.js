@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const avatarPreview = document.getElementById('avatar-preview'); // Єдиний елемент для прев'ю аватара
+    const avatarPreview = document.getElementById('avatar-preview');
 
     const genderRadios = document.querySelectorAll('.oldest-form .radio-input');    
     const genderRadios2 = document.querySelectorAll('.youngest-form .radio-input');
@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const characterImages = document.querySelectorAll('.oldest-form .character-wrap img');    
     const characterImages2 = document.querySelectorAll('.youngest-form .character-wrap img');
 
+    const nameInput = document.getElementById('name');
+    const nameError = document.getElementById('name-error');
+
+    const youngestNameInput = document.getElementById('youngest-name');
+    const youngestNameError = document.getElementById('youngest-name-error');
+
     let currentStep = 0;    
     let currentStep2 = 0;
 
@@ -26,6 +32,46 @@ document.addEventListener('DOMContentLoaded', function() {
     let maxStep2 = 0;
 
     let isYPrefixAdded = false;
+
+    // Function for validating the Name input
+    function validateName() {
+        const nameValue = nameInput.value.trim();
+        const nameRegex = /^[A-Za-zА-Яа-яІіЇїЄє]+$/;
+
+        if (!nameValue) {
+            nameError.textContent = "Oops! Don't forget to fill this in";
+            nameInput.classList.add('error');
+            return false;
+        } else if (!nameRegex.test(nameValue)) {
+            nameError.textContent = "Whoops! This contains unsupported characters. Try again.";
+            nameInput.classList.add('error');
+            return false;
+        } else {
+            nameError.textContent = '';
+            nameInput.classList.remove('error');
+            return true;
+        }
+    }
+
+    // Function for validating Youngest Name input
+    function validateYoungestName() {
+        const youngestNameValue = youngestNameInput.value.trim();
+        const youngestNameRegex = /^[A-Za-zА-Яа-яІіЇїЄє]+$/;
+
+        if (!youngestNameValue) {
+            youngestNameError.textContent = "Oops! Don't forget to fill this in";
+            youngestNameInput.classList.add('error');
+            return false;
+        } else if (!youngestNameRegex.test(youngestNameValue)) {
+            youngestNameError.textContent = "Whoops! This contains unsupported characters. Try again.";
+            youngestNameInput.classList.add('error');
+            return false;
+        } else {
+            youngestNameError.textContent = '';
+            youngestNameInput.classList.remove('error');
+            return true;
+        }
+    }
 
     // Show step for oldest
     function showStep(index) {
@@ -105,6 +151,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event for "Continue" button (oldest)
     continueButton.addEventListener('click', function(event) {
         event.preventDefault();
+
+        // Validation review
+        if (!validateName()) {
+            return;
+        }
+
         if (currentStep < steps.length - 1) {
             currentStep++;
             maxStep = Math.max(currentStep, maxStep);
@@ -118,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             isYPrefixAdded = true;
 
-            // Установлюємо за замовчуванням аватар молодшої дитини при переході до першого кроку
+            // Set the avatar of a young child for dressing up when moving to the first generation
             const defaultGender = document.querySelector('.youngest-form .radio-input:checked')?.value || 'boy';
             updateAvatarBasedOnGender2(defaultGender);
 
@@ -129,6 +181,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event for "Continue" button (youngest)
     continueButton2.addEventListener('click', function(event) {
         event.preventDefault();
+
+        // Validation review
+        if (!validateYoungestName()) {
+            return;
+        }
+
         if (currentStep2 < steps2.length - 1) {
             currentStep2++;
             maxStep2 = Math.max(currentStep2, maxStep2);

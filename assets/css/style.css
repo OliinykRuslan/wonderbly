@@ -23,11 +23,18 @@ body {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
-
     background-color: #fdf8f1;
     color: #23231e;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
-.container {
+main {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+}
+/* .container {
     position: relative;
     margin-left: auto;
     margin-right: auto;
@@ -49,7 +56,7 @@ body {
         width: 1200px;
         max-width: 100%;
     }
-}
+} */
 
 
 .header {
@@ -126,11 +133,20 @@ body {
 .tab-nav-item.active {
     cursor: pointer;
 }
+.step-content {
+    flex: 1 0 0;
+    display: flex;
+    width: 100%;
+}
+.step-content form {
+    display: flex;
+    width: 100%;
+}
 .step-content .form {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 16px;
+    padding: 16px 16px 0;
     gap: 24px;
 }
 
@@ -150,6 +166,9 @@ body {
     background-color: #fff;
     border: 2px solid #bdbdbb;
     border-radius: 0;
+}
+.form-group input.error {
+    border-color: #851926;
 }
 
 .radiogroup {
@@ -288,11 +307,9 @@ body {
 }
 
 .step-actions {
-    position: absolute;
-    left: 0;
-    right: 0;
+    position: sticky;
     bottom: 0;
-    width: 100%;
+    width: calc(100% + 32px);
     display: flex;
     flex-direction: column;
     gap: .5rem;
@@ -300,6 +317,13 @@ body {
     border-top: 1px solid #bdbdbb;
     padding: 16px;
     z-index: 3;
+    margin: auto -16px 0;
+}
+
+.error-message {
+    font-size: 14px;
+    color: #851926;
+    font-weight: 700;
 }
 
 @media (min-width: 768px) {
@@ -321,5 +345,7 @@ body {
         padding: 0;
         background: transparent;
         border: none;
+        margin: 0 auto;
+        width: 100%;
     }
 }
