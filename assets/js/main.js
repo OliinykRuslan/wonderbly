@@ -25,6 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const youngestNameInput = document.getElementById('youngest-name');
     const youngestNameError = document.getElementById('youngest-name-error');
 
+    const genderError = document.createElement('span');
+    genderError.classList.add('error-message');
+    document.querySelector('.oldest-form .radiogroup').appendChild(genderError);
+
+    const youngestGenderError = document.createElement('span');
+    youngestGenderError.classList.add('error-message');
+    document.querySelector('.youngest-form .radiogroup').appendChild(youngestGenderError);
+
     let currentStep = 0;    
     let currentStep2 = 0;
 
@@ -36,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function for validating the Name input
     function validateName() {
         const nameValue = nameInput.value.trim();
-        const nameRegex = /^[A-Za-zА-Яа-яІіЇїЄє]+$/;
+        const nameRegex = /^[A-Za-z]+$/;
 
         if (!nameValue) {
             nameError.textContent = "Oops! Don't forget to fill this in";
@@ -56,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function for validating Youngest Name input
     function validateYoungestName() {
         const youngestNameValue = youngestNameInput.value.trim();
-        const youngestNameRegex = /^[A-Za-zА-Яа-яІіЇїЄє]+$/;
+        const youngestNameRegex = /^[A-Za-z]+$/;
 
         if (!youngestNameValue) {
             youngestNameError.textContent = "Oops! Don't forget to fill this in";
@@ -72,6 +80,60 @@ document.addEventListener('DOMContentLoaded', function() {
             return true;
         }
     }
+
+    // Function for validating Gender radio buttons for older children
+    function validateGender() {
+        const selectedGender = document.querySelector('.oldest-form .radio-input:checked');
+        const radiogroup = document.querySelector('.oldest-form .radiogroup');
+        if (!selectedGender) {
+            genderError.textContent = "Oops! Don't forget to fill this in.";
+            radiogroup.classList.add('error'); // The 'error' class is added if the radio button is not selected
+            return false;
+        } else {
+            genderError.textContent = ''; // Clear the box when the radio is turned on
+            radiogroup.classList.remove('error'); // The 'error' class is removed if the radio button is selected
+            return true;
+        }
+    }
+
+    // Function for validating Gender radio buttons for young children
+    function validateYoungestGender() {
+        const selectedGender = document.querySelector('.youngest-form .radio-input:checked');
+        const radiogroup = document.querySelector('.youngest-form .radiogroup');
+        if (!selectedGender) {
+            youngestGenderError.textContent = "Oops! Don't forget to fill this in.";
+            radiogroup.classList.add('error'); // The 'error' class is added if the radio button is not selected
+            return false;
+        } else {
+            youngestGenderError.textContent = ''; // Clear the box when the radio is turned on
+            radiogroup.classList.remove('error'); // The 'error' class is removed if the radio button is selected
+            return true;
+        }
+    }
+
+    // Validation on blur for the name of the oldest child
+    nameInput.addEventListener('blur', function() {
+        validateName();
+    });
+
+    // Validation on blur for the name of a young child
+    youngestNameInput.addEventListener('blur', function() {
+        validateYoungestName();
+    });
+
+    // Validation on change for radio buttons of the oldest child
+    genderRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            validateGender();
+        });
+    });
+
+    // Validation on change for radio buttons of young children
+    genderRadios2.forEach(radio => {
+        radio.addEventListener('change', function() {
+            validateYoungestGender();
+        });
+    });
 
     // Show step for oldest
     function showStep(index) {
@@ -138,14 +200,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    function toggleAvatarActiveClassOldest() {
+        const selectedCharacterOldest = document.querySelector('.oldest-form .choose-image-radio:checked');
+        const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
+        
+        if (selectedCharacterOldest) {
+            avatarPreviewContainer.classList.add('active');
+        } else {
+            avatarPreviewContainer.classList.remove('active');
+        }
+    }
+    function toggleAvatarActiveClassYoungest() {
+        const selectedCharacterYoungest = document.querySelector('.youngest-form .choose-image-radio:checked');
+        const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
+        
+        if (selectedCharacterYoungest) {
+            avatarPreviewContainer.classList.add('active');
+        } else {
+            avatarPreviewContainer.classList.remove('active');
+        }
+    }
+
     // Event for character change (oldest)
     characterRadios.forEach(radio => {
-        radio.addEventListener('change', updateAvatarBasedOnCharacter);
+        radio.addEventListener('change', function() {
+            updateAvatarBasedOnCharacter();
+            toggleAvatarActiveClassOldest();
+        });
     });
 
     // Event for character change (youngest)
     characterRadios2.forEach(radio => {
-        radio.addEventListener('change', updateAvatarBasedOnCharacter2);
+        radio.addEventListener('change', function() {
+            updateAvatarBasedOnCharacter2();
+            toggleAvatarActiveClassYoungest();
+        });
     });
 
     // Event for "Continue" button (oldest)
@@ -153,7 +242,10 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         // Validation review
-        if (!validateName()) {
+        const isNameValid = validateName();
+        const isGenderValid = validateGender();
+
+        if (!isNameValid || !isGenderValid) {
             return;
         }
 
@@ -167,6 +259,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.querySelector('.oldest-form').classList.add('d-none');
             document.querySelector('.youngest-form').classList.remove('d-none');
+
+            // Remove the "active" class from the avatar container for young children
+            const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
+            avatarPreviewContainer.classList.remove('active');
 
             isYPrefixAdded = true;
 
@@ -183,7 +279,10 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         // Validation review
-        if (!validateYoungestName()) {
+        const isYoungestNameValid = validateYoungestName();
+        const isYoungestGenderValid = validateYoungestGender();
+
+        if (!isYoungestNameValid || !isYoungestGenderValid) {
             return;
         }
 

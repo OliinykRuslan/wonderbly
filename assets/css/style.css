@@ -119,6 +119,10 @@ main {
     object-position: 0 15%;
     max-width: 190px;
     margin: 0 auto;
+    filter: grayscale(1);
+}
+.avatar-preview-container.active img {
+    filter: none;
 }
 .step-fields > .step-item {
     display: none;
@@ -167,7 +171,8 @@ main {
     border: 2px solid #bdbdbb;
     border-radius: 0;
 }
-.form-group input.error {
+.form-group input.error,
+.radiogroup.error .radio-label {
     border-color: #851926;
 }
 
