@@ -319,3 +319,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+// page preview
+
+const layoutButtons = document.querySelectorAll('.layout-button');
+const pageContainers = document.querySelectorAll('.page-container');
+const previewContainer = document.querySelector('.preview-container');
+
+// Функція, яка керує переключенням активних класів
+layoutButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    layoutButtons.forEach(btn => btn.classList.remove('active'));
+    this.classList.add('active');
+    if (this.classList.contains('one-page')) {
+      pageContainers.forEach(container => container.classList.remove('two-page'));
+      previewContainer.classList.remove('preview-two-page');
+    } else if (this.classList.contains('two-page')) {
+      pageContainers.forEach(container => container.classList.add('two-page'));
+      previewContainer.classList.add('preview-two-page');
+    }
+  });
+});
+
+// modal
+const modalButtons = document.querySelectorAll('.modal-btn');
+const modal = document.getElementById('modal');
+const closeModalBtn = document.getElementById('modal-close');
+
+modalButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    modal.style.display = 'flex';
+  });
+});
+closeModalBtn.addEventListener('click', function() {
+  modal.style.display = 'none';
+});
+window.addEventListener('click', function(event) {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});

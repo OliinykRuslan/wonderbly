@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<!--<![endif]-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+    <title>Wonderbly</title>
+</head>
+
+<body>
+    <main class="preview-page">
+        <div class="layout-selector">
+            <button class="layout-button one-page">
+                <svg class="layout-icon" fill="none" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg">
+                    <rect height="25" rx="1" stroke-width="2" width="25" x="1" y="1"></rect>
+                </svg>
+                <span>One-page view</span>
+            </button>
+            <button class="layout-button two-page active">
+                <svg class="layout-icon" fill="none" viewBox="0 0 52 27" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 2a1 1 0 011-1h24v25H2a1 1 0 01-1-1V2zM26 1h24a1 1 0 011 1v23a1 1 0 01-1 1H26V1z" stroke-width="2"></path>
+                </svg>
+                <span>Two-page view</span>
+            </button>
+        </div>
+        <div class="preview-container preview-two-page">
+            <h1 class="pages-title">Personalize your book for test &amp; test</h1>
+            <ol class="pages-wrap">
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/front-right.jpeg" data-testid="page-front-right">
+                    </div>
+                    <div class="wrap-btn">
+                        <button class="primary-btn modal-btn">Edit cover</button>
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/front-left.jpeg" data-testid="page-front-left">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/dedication.jpeg" id="edit-page_dedication">
+                    </div>
+                    <div class="wrap-btn" id="edit-dedication">
+                        <button class="primary-btn modal-btn">Personalize your dedication</button>
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-1-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-1-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-2-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-2-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-3-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-3-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-4-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-4-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-5-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-5-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-6-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-6-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-7-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-7-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-8-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-8-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-9-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-9-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-10-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-10-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-11-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-11-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-12-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-12-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-13-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-13-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/spread-14-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/spread-14-right.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/marketing.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-right">
+                        <img alt="" class="page-image" src="assets/img/book/back-left.jpeg">
+                    </div>
+                </li>
+                <li class="page-container two-page">
+                    <div class="page-image-wrap page-image-cover-left">
+                        <img alt="" class="page-image" src="assets/img/book/back-right.jpeg" data-testid="page-back-right">
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="preview-bottom-bar-wrapper">
+            <div class="preview-bottom-bar">
+                <div class="drawers">
+                    <button class="drawer-btn modal-btn">
+                        <span class="drawer-label">Who's in your book?</span>
+                        <p class="drawer-value">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="drawer-tick complete">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="drawer-value-desc">test &amp; test</span>
+                        </p>
+                    </button>
+                    <button class="drawer-btn modal-btn">
+                        <span class="drawer-label">Cover color</span>
+                        <p class="drawer-value">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="drawer-tick">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="drawer-value-desc">Color selected</span>
+                        </p>
+                    </button>
+                    <button class="drawer-btn modal-btn">
+                        <span class="drawer-label">Dedication</span>
+                        <p class="drawer-value">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="drawer-tick">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="drawer-value-desc">Dear test &amp; test, As you both grow, and change, and head off in different directions, always remember that wherever life takes you, you’ll always have each other.</span>
+                        </p>
+                    </button>
+                    <button class="drawer-btn modal-btn">
+                        <span class="drawer-label">Book language</span>
+                        <p class="drawer-value">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="drawer-tick">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="drawer-value-desc">English (US)</span>
+                        </p>
+                    </button>
+                </div>
+                <div class="preview-cta-wrap">
+                    <button class="primary-btn preview-cta">Continue</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="modal-close">Cancel</button>
+            </div>
+            <div class="modal-body">
+                <p>Here is your modal content.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="primary-btn" type="submit">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
