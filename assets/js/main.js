@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateName() {
         const nameValue = nameInput.value.trim();
         const nameRegex = /^[A-Za-z]+$/;
-
         if (!nameValue) {
             nameError.textContent = "Oops! Don't forget to fill this in";
             nameInput.classList.add('error');
@@ -65,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateYoungestName() {
         const youngestNameValue = youngestNameInput.value.trim();
         const youngestNameRegex = /^[A-Za-z]+$/;
-
         if (!youngestNameValue) {
             youngestNameError.textContent = "Oops! Don't forget to fill this in";
             youngestNameInput.classList.add('error');
@@ -203,7 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleAvatarActiveClassOldest() {
         const selectedCharacterOldest = document.querySelector('.oldest-form .choose-image-radio:checked');
         const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
-        
         if (selectedCharacterOldest) {
             avatarPreviewContainer.classList.add('active');
         } else {
@@ -213,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleAvatarActiveClassYoungest() {
         const selectedCharacterYoungest = document.querySelector('.youngest-form .choose-image-radio:checked');
         const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
-        
         if (selectedCharacterYoungest) {
             avatarPreviewContainer.classList.add('active');
         } else {
@@ -240,15 +236,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event for "Continue" button (oldest)
     continueButton.addEventListener('click', function(event) {
         event.preventDefault();
-
         // Validation review
         const isNameValid = validateName();
         const isGenderValid = validateGender();
-
         if (!isNameValid || !isGenderValid) {
             return;
         }
-
         if (currentStep < steps.length - 1) {
             currentStep++;
             maxStep = Math.max(currentStep, maxStep);
@@ -256,14 +249,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (!isYPrefixAdded) {
             document.querySelector('.step-number').innerText = "2";
             document.querySelector('.step-subtitle').innerText = "Splendid! Who's the youngest child?";
-            
             document.querySelector('.oldest-form').classList.add('d-none');
             document.querySelector('.youngest-form').classList.remove('d-none');
 
             // Remove the "active" class from the avatar container for young children
             const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
             avatarPreviewContainer.classList.remove('active');
-
             isYPrefixAdded = true;
 
             // Set the avatar of a young child for dressing up when moving to the first generation
@@ -277,15 +268,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event for "Continue" button (youngest)
     continueButton2.addEventListener('click', function(event) {
         event.preventDefault();
-
         // Validation review
         const isYoungestNameValid = validateYoungestName();
         const isYoungestGenderValid = validateYoungestGender();
-
         if (!isYoungestNameValid || !isYoungestGenderValid) {
             return;
         }
-
         if (currentStep2 < steps2.length - 1) {
             currentStep2++;
             maxStep2 = Math.max(currentStep2, maxStep2);
@@ -320,14 +308,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
-// page preview
-
+// page preview **
 const layoutButtons = document.querySelectorAll('.layout-button');
 const pageContainers = document.querySelectorAll('.page-container');
 const previewContainer = document.querySelector('.preview-container');
-
-// Функція, яка керує переключенням активних класів
+// Function controls the switching of active classes
 layoutButtons.forEach(button => {
   button.addEventListener('click', function() {
     layoutButtons.forEach(btn => btn.classList.remove('active'));
@@ -346,7 +331,6 @@ layoutButtons.forEach(button => {
 const modalButtons = document.querySelectorAll('.modal-btn');
 const modal = document.getElementById('modal');
 const closeModalBtn = document.getElementById('modal-close');
-
 modalButtons.forEach(button => {
   button.addEventListener('click', function() {
     modal.style.display = 'flex';
