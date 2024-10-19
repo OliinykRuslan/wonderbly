@@ -154,7 +154,7 @@ main {
 .radiogroup {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 0 10px;
 }
 .radio-item {
     position: absolute;
@@ -249,6 +249,9 @@ main {
     width: 32px;
     z-index: 2;
 }
+.error .choose-image-label {
+    border-color: #851926;
+}
 
 .submit-btn {
     font-size: 16px;
@@ -300,10 +303,12 @@ main {
     margin: auto -16px 0;
 }
 
-.error-message {
+.error-message,
+.character-error-message {
     font-size: 14px;
     color: #851926;
     font-weight: 700;
+    padding: 4px 0 0;
 }
 
 /* page preview */
