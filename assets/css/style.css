@@ -207,7 +207,7 @@ main {
 .step-field-title {
     font-size: 14px;
     font-weight: 700;
-    list-style: 1.5;
+    line-height: 1.5;
     margin-bottom: 4px;
 }
 .character-wrap {

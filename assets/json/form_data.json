@@ -1,0 +1,169 @@
+{
+  "bookTitle": "Me and My Big Sibling",
+  "steps": [
+    {
+      "stepNumber": 1,
+      "title": "Let's add the oldest child to the story!",
+      "tabs": [
+        {
+          "name": "Name",
+          "fields": [
+            {
+              "type": "text",
+              "stepTitle": "What's the oldest child's name?",
+              "id": "name",
+              "name": "child-name"
+            },
+            {
+              "type": "radio",
+              "label": "Gender",
+              "name": "gender",
+              "options": [
+                {"value": "boy", "label": "Boy"},
+                {"value": "girl", "label": "Girl"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Character",
+          "fields": [
+            {
+              "type": "text",
+              "stepTitle": "Choose their character"
+            },
+            {
+              "type": "radio-image",
+              "name": "characters",
+              "options": [
+                {"value": "avatar-01", "image": "assets/img/avatar-01.png", "gender": "boy"},
+                {"value": "avatar-02", "image": "assets/img/avatar-02.png", "gender": "boy"},
+                {"value": "avatar-03", "image": "assets/img/avatar-03.png", "gender": "boy"},
+                {"value": "avatar-04", "image": "assets/img/avatar-04.png", "gender": "boy"},
+                {"value": "avatar-05", "image": "assets/img/avatar-05.png", "gender": "boy"},
+                {"value": "avatar-06", "image": "assets/img/avatar-06.png", "gender": "boy"},
+                {"value": "avatar-07", "image": "assets/img/avatar-07.png", "gender": "boy"},
+                {"value": "avatar-08", "image": "assets/img/avatar-08.png", "gender": "boy"},
+                {"value": "avatar-09", "image": "assets/img/avatar-09.png", "gender": "boy"},
+                {"value": "g-avatar-01", "image": "assets/img/g-avatar-01.png", "gender": "girl"},
+                {"value": "g-avatar-02", "image": "assets/img/g-avatar-02.png", "gender": "girl"},
+                {"value": "g-avatar-03", "image": "assets/img/g-avatar-03.png", "gender": "girl"},
+                {"value": "g-avatar-04", "image": "assets/img/g-avatar-04.png", "gender": "girl"},
+                {"value": "g-avatar-05", "image": "assets/img/g-avatar-05.png", "gender": "girl"},
+                {"value": "g-avatar-06", "image": "assets/img/g-avatar-06.png", "gender": "girl"},
+                {"value": "g-avatar-07", "image": "assets/img/g-avatar-07.png", "gender": "girl"},
+                {"value": "g-avatar-08", "image": "assets/img/g-avatar-08.png", "gender": "girl"},
+                {"value": "g-avatar-09", "image": "assets/img/g-avatar-09.png", "gender": "girl"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Age",
+          "fields": [
+            {
+              "type": "text",
+              "stepTitle": "Add their age"
+            },
+            {
+              "type": "radio",
+              "name": "age",
+              "options": [
+                {"value": "0", "label": "Under 1"},
+                {"value": "1", "label": "1"},
+                {"value": "2", "label": "2"},
+                {"value": "3", "label": "3"},
+                {"value": "4", "label": "4"},
+                {"value": "5", "label": "5"},
+                {"value": "6", "label": "6"},
+                {"value": "7", "label": "7+"}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stepNumber": 2,
+      "title": "Splendid! Who's the youngest child?",
+      "tabs": [
+        {
+          "name": "Name",
+          "fields": [
+            {
+              "type": "text",
+              "stepTitle": "What's the youngest child's name?",
+              "id": "youngest-name",
+              "name": "youngest-child-name"
+            },
+            {
+              "type": "radio",
+              "label": "Gender",
+              "name": "y-gender",
+              "options": [
+                {"value": "boy", "label": "Boy"},
+                {"value": "girl", "label": "Girl"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Character",
+          "fields": [
+            {
+              "type": "text",
+              "stepTitle": "Choose their character"
+            },
+            {
+              "type": "radio-image",
+              "name": "y-characters",
+              "options": [
+                {"value": "y-avatar-01", "image": "assets/img/y-avatar-01.png", "gender": "boy"},
+                {"value": "y-avatar-02", "image": "assets/img/y-avatar-02.png", "gender": "boy"},
+                {"value": "y-avatar-03", "image": "assets/img/y-avatar-03.png", "gender": "boy"},
+                {"value": "y-avatar-04", "image": "assets/img/y-avatar-04.png", "gender": "boy"},
+                {"value": "y-avatar-05", "image": "assets/img/y-avatar-05.png", "gender": "boy"},
+                {"value": "y-avatar-06", "image": "assets/img/y-avatar-06.png", "gender": "boy"},
+                {"value": "y-avatar-07", "image": "assets/img/y-avatar-07.png", "gender": "boy"},
+                {"value": "y-avatar-08", "image": "assets/img/y-avatar-08.png", "gender": "boy"},
+                {"value": "y-avatar-09", "image": "assets/img/y-avatar-09.png", "gender": "boy"},
+                {"value": "y-avatar-01", "image": "assets/img/y-avatar-01.png", "gender": "girl"},
+                {"value": "g-y-avatar-02", "image": "assets/img/g-y-avatar-02.png", "gender": "girl"},
+                {"value": "g-y-avatar-03", "image": "assets/img/g-y-avatar-03.png", "gender": "girl"},
+                {"value": "g-y-avatar-04", "image": "assets/img/g-y-avatar-04.png", "gender": "girl"},
+                {"value": "g-y-avatar-05", "image": "assets/img/g-y-avatar-05.png", "gender": "girl"},
+                {"value": "g-y-avatar-06", "image": "assets/img/g-y-avatar-06.png", "gender": "girl"},
+                {"value": "g-y-avatar-07", "image": "assets/img/g-y-avatar-07.png", "gender": "girl"},
+                {"value": "g-y-avatar-08", "image": "assets/img/g-y-avatar-08.png", "gender": "girl"},
+                {"value": "g-y-avatar-09", "image": "assets/img/g-y-avatar-09.png", "gender": "girl"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Age",
+          "fields": [
+            {
+              "type": "text",
+              "stepTitle": "Add their age"
+            },
+            {
+              "type": "radio",
+              "name": "age-youngest",
+              "options": [
+                {"value": "under-1", "label": "Under 1"},
+                {"value": "age-1", "label": "1"},
+                {"value": "age-2", "label": "2"},
+                {"value": "age-3", "label": "3"},
+                {"value": "age-4", "label": "4"},
+                {"value": "age-5", "label": "5"},
+                {"value": "age-6", "label": "6"},
+                {"value": "age-7", "label": "7"}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

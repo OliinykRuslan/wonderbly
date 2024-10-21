@@ -377,8 +377,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 maxStep = Math.max(currentStep, maxStep);
                 showStep(currentStep);
             } else if (!isYPrefixAdded) {
-                document.querySelector('.step-number').innerText = "2";
-                document.querySelector('.step-subtitle').innerText = "Splendid! Who's the youngest child?";
                 document.querySelector('.oldest-form').classList.add('d-none');
                 document.querySelector('.youngest-form').classList.remove('d-none');
 
@@ -492,7 +490,6 @@ const modalButtons = document.querySelectorAll('.modal-btn');
 const modal = document.getElementById('modal');
 const closeModalBtn = document.getElementById('modal-close');
 
-// const element = document.querySelector('#elementId');
 if (modal) {
     modalButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -509,3 +506,121 @@ if (modal) {
     });
 }
 
+
+// JSON
+function loadFormData() {
+    fetch('assets/json/form_data.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        updateFormContent(data);
+    })
+    .catch(error => {
+        console.error('Error fetching JSON:', error);
+    });
+}
+
+function updateFormContent(data) {
+    // update heading from JSON
+    document.querySelector('.header-title').textContent = data.bookTitle;
+    document.querySelector('.step-title .step-number').textContent = data.steps[0].stepNumber;
+    document.querySelector('.step-subtitle').textContent = data.steps[0].title;
+
+    // Function updating tab navigation (tab-nav)
+    function updateTabsNav(tabs, formSelector) {
+        tabs.forEach((tab, index) => {
+            const tabItem = document.querySelector(`${formSelector} .tab-nav .tab-nav-item:nth-child(${index + 1})`);
+            if (tabItem) {
+                tabItem.textContent = tab.name;
+            }
+        });
+    }
+    // older children
+    const tabs = data.steps[0].tabs;
+    updateTabsNav(tabs, '.oldest-form');
+    // younger children
+    const youngTabs = data.steps[1].tabs;
+    updateTabsNav(youngTabs, '.youngest-form');
+
+    // Function updating the child's name field
+    function updateNameField(tabs, formSelector) {
+        tabs.forEach((tab, tabIndex) => {
+            const stepItem = document.querySelector(`${formSelector} .step-item.step-${tabIndex + 1} .step-field-title`);
+            const field = tab.fields.find(field => field.type === 'text');
+            if (stepItem && field) {
+                stepItem.textContent = field.stepTitle;  // Підставляємо stepTitle з JSON
+            }
+        });
+    }
+    // older children
+    const steps = data.steps[0].tabs;
+    updateNameField(steps, '.oldest-form');
+    // younger children
+    const youngSteps = data.steps[1].tabs;
+    updateNameField(youngSteps, '.youngest-form');
+
+    //Updating radio buttons for selecting an article
+    function updateGenderOptions(genderField, boySelector, girlSelector) {
+        const genderOptions = genderField.options;
+        // Updated text and values ​​for article radio buttons
+        document.querySelector(`label[for="${boySelector}"]`).textContent = genderOptions[0].label;
+        document.querySelector(`#${boySelector}`).value = genderOptions[0].value;
+        document.querySelector(`label[for="${girlSelector}"]`).textContent = genderOptions[1].label;
+        document.querySelector(`#${girlSelector}`).value = genderOptions[1].value;
+    }
+    // Headings are being updated
+    document.querySelector('.step-title .step-number').textContent = data.steps[0].stepNumber;
+    document.querySelector('.step-subtitle').textContent = data.steps[0].title;
+    // older children
+    const genderField = data.steps[0].tabs[0].fields.find(field => field.type === 'radio');
+    updateGenderOptions(genderField, 'boy', 'girl');
+    // younger children
+    const youngGenderField = data.steps[1].tabs[0].fields.find(field => field.type === 'radio');
+    updateGenderOptions(youngGenderField, 'y-boy', 'y-girl');
+    
+    // Function updating radio buttons for selecting a character (avatars)
+    function updateCharacterOptions(characterField, characterSelectorPrefix) {
+        const characterOptions = characterField.options;
+        characterOptions.forEach((option, index) => {
+            const characterItem = document.querySelector(`#${characterSelectorPrefix}-${index + 1}`);
+            if (characterItem) {
+                characterItem.value = option.value;
+                const label = document.querySelector(`label[for="${characterSelectorPrefix}-${index + 1}"] img`);
+                if (label) {
+                    label.src = option.image;
+                }
+            }
+        });
+    }
+    // select a character (avatar) for oldest child
+    const characterField = data.steps[0].tabs[1].fields.find(field => field.type === 'radio-image');
+    updateCharacterOptions(characterField, 'characters');
+    // select a character (avatar) for younger child
+    const characterField2 = data.steps[1].tabs[1].fields.find(field => field.type === 'radio-image');
+    updateCharacterOptions(characterField2, 'y-characters');
+
+    // Function to update radio buttons for age (handling cases where the value might not be a valid selector)
+    function updateAgeOptions(ageField, ageSelectorName) {
+        const ageOptions = ageField.options;
+        ageOptions.forEach(option => {
+            const ageRadio = document.querySelector(`input[name="${ageSelectorName}"][value="${option.value}"]`);
+            if (ageRadio) {
+                ageRadio.value = option.value;
+                document.querySelector(`label[for="${ageRadio.id}"]`).textContent = option.label;
+            }
+        });
+    }
+    // Update radio buttons for age (oldest child)
+    const ageField = data.steps[0].tabs[2].fields.find(field => field.type === 'radio');
+    updateAgeOptions(ageField, 'age');
+    // Update radio buttons for age (youngest child)
+    const youngAgeField = data.steps[1].tabs[2].fields.find(field => field.type === 'radio');
+    updateAgeOptions(youngAgeField, 'age-youngest');
+}
+
+// Loading data when the page loads
+document.addEventListener('DOMContentLoaded', loadFormData);
