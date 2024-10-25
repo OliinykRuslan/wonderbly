@@ -1,626 +1,592 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const avatarPreview = document.getElementById('avatar-preview');
-
-    const genderRadios = document.querySelectorAll('.oldest-form .radio-input');    
-    const genderRadios2 = document.querySelectorAll('.youngest-form .radio-input');
-
-    const characterRadios = document.querySelectorAll('.oldest-form .choose-image-radio');    
-    const characterRadios2 = document.querySelectorAll('.youngest-form .choose-image-radio');
-
-    const steps = document.querySelectorAll('.oldest-form .step-fields > div, .oldest-form .step-item');    
-    const steps2 = document.querySelectorAll('.youngest-form .step-fields > div, .youngest-form .step-item');
-
-    const tabNavButtons = document.querySelectorAll('.oldest-form .tab-nav-item');
-    const tabNavButtons2 = document.querySelectorAll('.youngest-form .tab-nav-item');
-
-    const continueButton = document.querySelector('.oldest-form .submit-btn');
-    const continueButton2 = document.querySelector('.youngest-form .submit-btn');
-
-    const characterImages = document.querySelectorAll('.oldest-form .character-wrap img');    
-    const characterImages2 = document.querySelectorAll('.youngest-form .character-wrap img');
-
-    const nameInput = document.getElementById('name');
-    const nameError = document.getElementById('name-error');
-
-    const youngestNameInput = document.getElementById('youngest-name');
-    const youngestNameError = document.getElementById('youngest-name-error');
-
-    const genderError = document.createElement('span');    
-    const characterError = document.createElement('span');
-    const ageError = document.createElement('span');
-
-    const radioGroup = document.querySelector('.oldest-form .step-1 .radiogroup');    
-    const characterRadioGroup = document.querySelector('.oldest-form .step-2');
-    const ageRadioGroup = document.querySelector('.oldest-form .step-3 .radiogroup');
-
-    const characterErrorYoungest = document.createElement('span');
-    const ageErrorYoungest = document.createElement('span');
-
-    const characterRadioGroupYoungest = document.querySelector('.youngest-form .step-2');
-    const ageRadioGroupYoungest = document.querySelector('.youngest-form .step-3-youngest .age-wrap');
-    if (radioGroup) {
-        genderError.classList.add('error-message');
-        radioGroup.appendChild(genderError);
-    }
-
-    if (characterRadioGroup) {
-        characterError.classList.add('error-message');
-        characterRadioGroup.appendChild(characterError);
-    }
-
-    if (ageRadioGroup) {
-        ageError.classList.add('error-message');
-        ageRadioGroup.appendChild(ageError);
-    }
-
-    const youngestGenderError = document.createElement('span');
-    const youngestRadioGroup = document.querySelector('.youngest-form .radiogroup');
-    if (youngestRadioGroup) { 
-        youngestGenderError.classList.add('error-message');
-        youngestRadioGroup.appendChild(youngestGenderError);
-    }
-
-    if (characterRadioGroupYoungest) {
-        characterErrorYoungest.classList.add('error-message');
-        characterRadioGroupYoungest.appendChild(characterErrorYoungest);
-    }
-
-    if (ageRadioGroupYoungest) {
-        ageErrorYoungest.classList.add('error-message');
-        ageRadioGroupYoungest.appendChild(ageErrorYoungest);
-    }
-
-    let currentStep = 0;    
-    let currentStep2 = 0;
-
-    let maxStep = 0;
-    let maxStep2 = 0;
-
+    const jsonFileName = 'form_data';
+    let currentStep = 0;
+    let maxSteps = 0;
+    let doneSteps = 0;
+    let currentTab = 0;
+    let maxTabs = 0;
+    let doneTabs = 0;
+    let subtitles = [];
+    let avatarPreview = document.querySelector('#avatar-preview');
     let isYPrefixAdded = false;
 
-    // Function for validating the Name input
-    function validateName() {
-        const nameValue = nameInput.value.trim();
-        const nameRegex = /^[A-Za-z]+$/;
-        if (!nameValue) {
-            nameError.textContent = "Oops! Don't forget to fill this in";
-            nameInput.classList.add('error');
-            return false;
-        } else if (!nameRegex.test(nameValue)) {
-            nameError.textContent = "Whoops! This contains unsupported characters. Try again.";
-            nameInput.classList.add('error');
-            return false;
-        } else {
-            nameError.textContent = '';
-            nameInput.classList.remove('error');
-            return true;
-        }
-    }
-
-    // Function for validating Youngest Name input
-    function validateYoungestName() {
-        const youngestNameValue = youngestNameInput.value.trim();
-        const youngestNameRegex = /^[A-Za-z]+$/;
-        if (!youngestNameValue) {
-            youngestNameError.textContent = "Oops! Don't forget to fill this in";
-            youngestNameInput.classList.add('error');
-            return false;
-        } else if (!youngestNameRegex.test(youngestNameValue)) {
-            youngestNameError.textContent = "Whoops! This contains unsupported characters. Try again.";
-            youngestNameInput.classList.add('error');
-            return false;
-        } else {
-            youngestNameError.textContent = '';
-            youngestNameInput.classList.remove('error');
-            return true;
-        }
-    }
-
-    // Function for validating Gender radio buttons for older children
-    function validateGender() {
-        const selectedGender = document.querySelector('.oldest-form .radio-input:checked');
-        const radiogroup = document.querySelector('.oldest-form .step-1 .radiogroup');
-        if (!selectedGender) {
-            genderError.textContent = "Oops! Don't forget to fill this in.";
-            radiogroup.classList.add('error'); // The 'error' class is added if the radio button is not selected
-            return false;
-        } else {
-            genderError.textContent = ''; // Clear the box when the radio is turned on
-            radiogroup.classList.remove('error'); // The 'error' class is removed if the radio button is selected
-            return true;
-        }
-    }
-
-    // Function for validating Gender radio buttons for young children
-    function validateYoungestGender() {
-        const selectedGender = document.querySelector('.youngest-form .radio-input:checked');
-        const radiogroup = document.querySelector('.youngest-form .radiogroup');
-        if (!selectedGender) {
-            youngestGenderError.textContent = "Oops! Don't forget to fill this in.";
-            radiogroup.classList.add('error'); // The 'error' class is added if the radio button is not selected
-            return false;
-        } else {
-            youngestGenderError.textContent = ''; // Clear the box when the radio is turned on
-            radiogroup.classList.remove('error'); // The 'error' class is removed if the radio button is selected
-            return true;
-        }
-    }
-
-    // Validation on blur for the name of the oldest child
-    if (nameInput) {
-        nameInput.addEventListener('blur', function() {
-            validateName();
-        });
-    }
-
-    // Validation on blur for the name of a young child
-    if (youngestNameInput) {
-        youngestNameInput.addEventListener('blur', function() {
-            validateYoungestName();
-        });
-    }
-
-    // Validation on change for radio buttons of the oldest child
-    genderRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            validateGender();
-        });
-    });
-
-    // Validation on change for radio buttons of young children
-    genderRadios2.forEach(radio => {
-        radio.addEventListener('change', function() {
-            validateYoungestGender();
-        });
-    });
-
-    // Show step for oldest
-    function showStep(index) {
-        steps.forEach((step, idx) => step.style.display = idx === index ? 'block' : 'none');
-        tabNavButtons.forEach((btn, idx) => {
-            btn.classList.toggle('active', idx === index);
-            if (idx <= maxStep) btn.classList.add('done');
-        });
-    }
-
-    // Show step for youngest
-    function showStep2(index) {
-        steps2.forEach((step, idx) => step.style.display = idx === index ? 'block' : 'none');
-        tabNavButtons2.forEach((btn, idx) => {
-            btn.classList.toggle('active', idx === index);
-            if (idx <= maxStep2) btn.classList.add('done');
-        });
-    }
-
-    // Update avatar based on gender selection for oldest
-    function updateAvatarBasedOnGender(gender) {
-        const prefix = isYPrefixAdded ? 'y-' : '';
-        avatarPreview.src = `assets/img/${prefix}${gender === 'boy' ? 'avatar-04.png' : 'g-avatar-04.png'}`;
-    }
-
-    // Update avatar based on gender selection for youngest
-    function updateAvatarBasedOnGender2(gender) {
-        avatarPreview.src = `assets/img/${gender === 'boy' ? 'y-avatar-04.png' : 'g-y-avatar-04.png'}`;
-    }
-
-    // Update avatar based on character selection for oldest
-    function updateAvatarBasedOnCharacter() {
-        const selectedCharacter = document.querySelector('.oldest-form .choose-image-radio:checked + label img').src;
-        avatarPreview.src = selectedCharacter;
-    }
-
-    // Update avatar based on character selection for youngest
-    function updateAvatarBasedOnCharacter2() {
-        const selectedCharacter = document.querySelector('.youngest-form .choose-image-radio:checked + label img').src;
-        avatarPreview.src = selectedCharacter;
-    }
-
-    // Event for gender change (oldest)
-    genderRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            updateAvatarBasedOnGender(this.value);
-            characterImages.forEach(img => {
-                const fileName = img.src.split('/').pop();
-                img.src = this.value === 'girl' && !fileName.startsWith('g-') ? img.src.replace(fileName, `g-${fileName}`) :
-                          this.value === 'boy' && fileName.startsWith('g-') ? img.src.replace('g-', '') : img.src;
-            });
-        });
-    });
-
-    // Event for gender change (youngest)
-    genderRadios2.forEach(radio => {
-        radio.addEventListener('change', function() {
-            updateAvatarBasedOnGender2(this.value);
-            characterImages2.forEach(img => {
-                const fileName = img.src.split('/').pop();
-                img.src = this.value === 'girl' && !fileName.startsWith('g-') ? img.src.replace(fileName, `g-${fileName}`) :
-                          this.value === 'boy' && fileName.startsWith('g-') ? img.src.replace('g-', '') : img.src;
-            });
-        });
-    });
-
-    function toggleAvatarActiveClassOldest() {
-        const selectedCharacterOldest = document.querySelector('.oldest-form .choose-image-radio:checked');
-        const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
-        if (selectedCharacterOldest) {
-            avatarPreviewContainer.classList.add('active');
-        } else {
-            avatarPreviewContainer.classList.remove('active');
-        }
-    }
-    function toggleAvatarActiveClassYoungest() {
-        const selectedCharacterYoungest = document.querySelector('.youngest-form .choose-image-radio:checked');
-        const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
-        if (selectedCharacterYoungest) {
-            avatarPreviewContainer.classList.add('active');
-        } else {
-            avatarPreviewContainer.classList.remove('active');
-        }
-    }
-
-    // Event for character change (oldest)
-    characterRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            updateAvatarBasedOnCharacter();
-            toggleAvatarActiveClassOldest();
-        });
-    });
-
-    // Validation changing the character (second step for the oldest child)
-    characterRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            validateCharacterSelectionOldest();
-        });
-    });
-
-    // Function character validation (oldest child)
-    function validateCharacterSelectionOldest() {
-        const characterRadioGroup = document.querySelector('.oldest-form .step-2');
-        characterError.textContent = '';
-        characterRadioGroup.classList.remove('error');
-        return true;
-    }
-
-    // Validation changing the age (third step for the oldest child)
-    document.querySelectorAll('.oldest-form .radio-age').forEach(radio => {
-        radio.addEventListener('change', function() {
-            validateAgeSelectionOldest();
-        });
-    });
-
-    // Function age validation (oldest child)
-    function validateAgeSelectionOldest() {
-        const ageRadioGroup = document.querySelector('.oldest-form .step-3 .radiogroup');
-        ageError.textContent = '';
-        ageRadioGroup.classList.remove('error');
-        return true;
-    }
-
-    // Validation changing the character (second step for the youngest child)
-    characterRadios2.forEach(radio => {
-        radio.addEventListener('change', function() {
-            validateCharacterSelectionYoungest();
-        });
-    });
-
-    // Function character validation (youngest child)
-    function validateCharacterSelectionYoungest() {
-        const characterRadioGroup = document.querySelector('.youngest-form .step-2');
-        characterErrorYoungest.textContent = '';
-        characterRadioGroup.classList.remove('error');
-        return true;
-    }
-
-    // Validation changing the age (third step for the youngest child)
-    document.querySelectorAll('.youngest-form .radio-age-youngest').forEach(radio => {
-        radio.addEventListener('change', function() {
-            validateAgeSelectionYoungest();
-        });
-    });
-
-    // Function for age validation (youngest child)
-    function validateAgeSelectionYoungest() {
-        const ageRadioGroupYoungest = document.querySelector('.youngest-form .step-3-youngest .radiogroup');
-        ageErrorYoungest.textContent = '';
-        ageRadioGroupYoungest.classList.remove('error');
-        return true;
-    }
-
-    // Event for character change (youngest)
-    characterRadios2.forEach(radio => {
-        radio.addEventListener('change', function() {
-            updateAvatarBasedOnCharacter2();
-            toggleAvatarActiveClassYoungest();
-        });
-    });
-
-    // Event for "Continue" button (oldest)
-    if (continueButton) {
-        continueButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            // Validation review
-            const isNameValid = validateName();
-            const isGenderValid = validateGender();
-
-            if (!isNameValid || !isGenderValid) {
-                return;
-            }
-
-            if (currentStep === 1) { 
-                const selectedCharacter = document.querySelector('.oldest-form .choose-image-radio:checked');
-                const characterRadioGroup = document.querySelector('.oldest-form .step-2');
-                if (!selectedCharacter) {
-                    characterError.textContent = "Oops! Don't forget to fill this in.";
-                    characterRadioGroup.classList.add('error');
-                    return false;
-                } else {
-                    characterError.textContent = '';
-                    characterRadioGroup.classList.remove('error');
-                }
-            }
-
-            if (currentStep === 2) {
-                const selectedAge = document.querySelector('.oldest-form .radio-age:checked');
-                const ageRadioGroup = document.querySelector('.oldest-form .step-3 .radiogroup');
-                if (!selectedAge) {
-                    ageError.textContent = "Oops! Don't forget to fill this in.";
-                    ageRadioGroup.classList.add('error');
-                    return false;
-                } else {
-                    ageError.textContent = '';
-                    ageRadioGroup.classList.remove('error');
-                }
-            }
-
-            if (currentStep < steps.length - 1) {
-                currentStep++;
-                maxStep = Math.max(currentStep, maxStep);
-                showStep(currentStep);
-            } else if (!isYPrefixAdded) {
-                document.querySelector('.oldest-form').classList.add('d-none');
-                document.querySelector('.youngest-form').classList.remove('d-none');
-
-                // Remove the "active" class from the avatar container for young children
-                const avatarPreviewContainer = document.querySelector('.avatar-preview-container');
-                avatarPreviewContainer.classList.remove('active');
-                isYPrefixAdded = true;
-
-                // Set the avatar of a young child for dressing up when moving to the first generation
-                const defaultGender = document.querySelector('.youngest-form .radio-input:checked')?.value || 'boy';
-                updateAvatarBasedOnGender2(defaultGender);
-
-                showStep2(0);
-            }
-        });
-    }
-
-    // Event for "Continue" button (youngest)
-    if (continueButton2) {
-        continueButton2.addEventListener('click', function(event) {
-            event.preventDefault();
-            // Validation review
-            const isYoungestNameValid = validateYoungestName();
-            const isYoungestGenderValid = validateYoungestGender();
-            if (!isYoungestNameValid || !isYoungestGenderValid) {
-                return;
-            }
-            if (currentStep2 === 1) { 
-                const selectedCharacter = document.querySelector('.youngest-form .choose-image-radio:checked');
-                const characterRadioGroup = document.querySelector('.youngest-form .step-2');
-                if (!selectedCharacter) {
-                    characterErrorYoungest.textContent = "Oops! Don't forget to fill this in.";
-                    characterRadioGroup.classList.add('error');
-                    return false;
-                } else {
-                    characterErrorYoungest.textContent = '';
-                    characterRadioGroup.classList.remove('error');
-                }
-            }
-
-            if (currentStep2 === 2) {
-                const selectedAge = document.querySelector('.youngest-form .radio-age-youngest:checked');
-                const ageRadioGroupYoungest = document.querySelector('.youngest-form .step-3-youngest .radiogroup');
-                if (!selectedAge) {
-                    ageErrorYoungest.textContent = "Oops! Don't forget to fill this in.";
-                    ageRadioGroupYoungest.classList.add('error');
-                    return false;
-                } else {
-                    ageErrorYoungest.textContent = '';
-                    ageRadioGroupYoungest.classList.remove('error');
-                    window.location.href = './preview.html';
-                }
-            }
-            if (currentStep2 < steps2.length - 1) {
-                currentStep2++;
-                maxStep2 = Math.max(currentStep2, maxStep2);
-                showStep2(currentStep2);
-            } else {
-                window.location.href = './preview.html';
-            }
-        });
-    }
-
-    // Initialize the first steps
-    showStep(0);
-    showStep2(0);
-
-    // Navigation buttons for oldest
-    tabNavButtons.forEach((btn, index) => {
-        btn.addEventListener('click', function() {
-            if (index <= maxStep) {
-                currentStep = index;
-                showStep(currentStep);
-            }
-        });
-    });
-
-    // Navigation buttons for youngest
-    tabNavButtons2.forEach((btn, index) => {
-        btn.addEventListener('click', function() {
-            if (index <= maxStep2) {
-                currentStep2 = index;
-                showStep2(currentStep2);
-            }
-        });
-    });
-});
-
-// page preview **
-const layoutButtons = document.querySelectorAll('.layout-button');
-const pageContainers = document.querySelectorAll('.page-container');
-const previewContainer = document.querySelector('.preview-container');
-
-// Function controls the switching of active classes
-layoutButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    layoutButtons.forEach(btn => btn.classList.remove('active'));
-    this.classList.add('active');
-    if (this.classList.contains('one-page')) {
-      pageContainers.forEach(container => container.classList.remove('two-page'));
-      previewContainer.classList.remove('preview-two-page');
-    } else if (this.classList.contains('two-page')) {
-      pageContainers.forEach(container => container.classList.add('two-page'));
-      previewContainer.classList.add('preview-two-page');
-    }
-  });
-});
-
-// modal
-const modalButtons = document.querySelectorAll('.modal-btn');
-const modal = document.getElementById('modal');
-const closeModalBtn = document.getElementById('modal-close');
-
-if (modal) {
-    modalButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          modal.style.display = 'flex';
-        });
-      });
-      closeModalBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-      window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-        }
-    });
-}
-
-
-// JSON
-function loadFormData() {
-    fetch('assets/json/form_data.json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        updateFormContent(data);
-    })
-    .catch(error => {
-        console.error('Error fetching JSON:', error);
-    });
-}
-
-function updateFormContent(data) {
-    // update heading from JSON
-    document.querySelector('.header-title').textContent = data.bookTitle;
-    document.querySelector('.step-title .step-number').textContent = data.steps[0].stepNumber;
-    document.querySelector('.step-subtitle').textContent = data.steps[0].title;
-
-    // Function updating tab navigation (tab-nav)
-    function updateTabsNav(tabs, formSelector) {
-        tabs.forEach((tab, index) => {
-            const tabItem = document.querySelector(`${formSelector} .tab-nav .tab-nav-item:nth-child(${index + 1})`);
-            if (tabItem) {
-                tabItem.textContent = tab.name;
-            }
-        });
-    }
-    // older children
-    const tabs = data.steps[0].tabs;
-    updateTabsNav(tabs, '.oldest-form');
-    // younger children
-    const youngTabs = data.steps[1].tabs;
-    updateTabsNav(youngTabs, '.youngest-form');
-
-    // Function updating the child's name field
-    function updateNameField(tabs, formSelector) {
-        tabs.forEach((tab, tabIndex) => {
-            const stepItem = document.querySelector(`${formSelector} .step-item.step-${tabIndex + 1} .step-field-title`);
-            const field = tab.fields.find(field => field.type === 'text');
-            if (stepItem && field) {
-                stepItem.textContent = field.stepTitle;  // Підставляємо stepTitle з JSON
-            }
-        });
-    }
-    // older children
-    const steps = data.steps[0].tabs;
-    updateNameField(steps, '.oldest-form');
-    // younger children
-    const youngSteps = data.steps[1].tabs;
-    updateNameField(youngSteps, '.youngest-form');
-
-    //Updating radio buttons for selecting an article
-    function updateGenderOptions(genderField, boySelector, girlSelector) {
-        const genderOptions = genderField.options;
-        // Updated text and values ​​for article radio buttons
-        document.querySelector(`label[for="${boySelector}"]`).textContent = genderOptions[0].label;
-        document.querySelector(`#${boySelector}`).value = genderOptions[0].value;
-        document.querySelector(`label[for="${girlSelector}"]`).textContent = genderOptions[1].label;
-        document.querySelector(`#${girlSelector}`).value = genderOptions[1].value;
-    }
-    // Headings are being updated
-    document.querySelector('.step-title .step-number').textContent = data.steps[0].stepNumber;
-    document.querySelector('.step-subtitle').textContent = data.steps[0].title;
-    // older children
-    const genderField = data.steps[0].tabs[0].fields.find(field => field.type === 'radio');
-    updateGenderOptions(genderField, 'boy', 'girl');
-    // younger children
-    const youngGenderField = data.steps[1].tabs[0].fields.find(field => field.type === 'radio');
-    updateGenderOptions(youngGenderField, 'y-boy', 'y-girl');
+    function defaultInputGenerate(data) {
+        let name = data['name'];
+        let type = data['type'];
+        let id = '';
+        let placeholder = '';
+        let inputHtml = '';
     
-    // Function updating radio buttons for selecting a character (avatars)
-    function updateCharacterOptions(characterField, characterSelectorPrefix) {
-        const characterOptions = characterField.options;
-        characterOptions.forEach((option, index) => {
-            const characterItem = document.querySelector(`#${characterSelectorPrefix}-${index + 1}`);
-            if (characterItem) {
-                characterItem.value = option.value;
-                const label = document.querySelector(`label[for="${characterSelectorPrefix}-${index + 1}"] img`);
-                if (label) {
-                    label.src = option.image;
+        if (data.hasOwnProperty('name')) {
+            name = data['name'];
+        }
+
+        if (data.hasOwnProperty('id')) {
+            id = data['id'];
+        }
+    
+        if (data.hasOwnProperty('placeholder')) {
+            placeholder = data['placeholder'];
+        }
+    
+        inputHtml += '<div class="form-group">';
+        if (data.hasOwnProperty('stepTitle')) {
+            inputHtml += `<h4 class="step-field-title">${data['stepTitle']}</h4>`;
+        }
+    
+        if (name && name !== '') {
+            inputHtml += `<input type="${type}" id="${id}" name="${name}" placeholder="${placeholder}">`;
+        }
+    
+        inputHtml += '</div>';
+    
+        return inputHtml;
+    }
+
+    function radioInputGenerate(data) {
+        let name = data['name'];
+        let type = data['type'];
+        let mainLabel = '';
+        let options = {};
+        let inputHtml = '';
+
+        if (data.hasOwnProperty('name')) {
+            name = data['name'];
+        }
+
+        if (data.hasOwnProperty('label')) {
+            mainLabel = data['label'];
+        }
+
+        if (data.hasOwnProperty('options')) {
+            options = data['options'];
+        } else {
+            return;
+        }
+
+        inputHtml += '<div class="radiogroup">';
+
+        for (let idx in options) {
+            let option = options[idx];
+            let value = option['value'];
+            let label = option['label'];
+
+            inputHtml += '<div class="radio-button">';
+            inputHtml += `<input class="radio-item radio-input" type="${type}" id="${name}-${value}" name="${name}" value="${value}">`;
+
+            if (label !== '') {
+                inputHtml += `<label class="radio-label" for="${name}-${value}">${label}</label>`;
+            }
+            inputHtml += '</div>';
+        }
+
+        inputHtml += '</div>';
+
+        return inputHtml;
+    }
+
+    function radioImageInputGenerate(data) {
+        let name = '';
+        let mainLabel = '';
+        let options = {};
+        let inputHtml = '';
+
+        if (data.hasOwnProperty('name')) {
+            name = data['name'];
+        }
+
+        if (data.hasOwnProperty('label')) {
+            mainLabel = data['label'];
+        }
+
+        if (data.hasOwnProperty('options')) {
+            options = data['options'];
+        } else {
+            return;
+        }
+
+        inputHtml += '<div class="character-wrap">';
+
+        for (let idx in options) {
+            let i = parseInt(idx) + 1;
+            let option = options[idx];
+            let value = option['value'];
+            let image = option['image'];
+            let label = option['label'];
+            let gender = option['gender'];
+            let dataGender = '';
+
+            if (!image || image == '') {
+                return;
+            }
+
+            if (gender && "" !== gender) {
+                dataGender = `data-gender=${gender}`;
+            }
+
+            inputHtml += '<div class="character-item">';
+            inputHtml += `<input class="radio-item choose-image-radio" id="${name}-${value}" type="radio" name="${name}" value="${value}" ${dataGender}>`;
+
+            inputHtml += `<label class="choose-image-label" for="${name}-${value}">
+                                <span class="img-wrap">
+                                    <img alt="" src="${image}">
+                                </span>
+                            </label>`;
+            inputHtml += '</div>';
+        }
+
+        inputHtml += '</div>';
+
+        return inputHtml;
+    }
+
+    function createFields(fields) {
+        let html = '';
+        for (let indx in fields) {
+            let fieldData = fields[indx];
+            let type = fieldData['type'];
+
+            switch (type) {
+                case 'radio':
+                    html += radioInputGenerate(fieldData);
+                    break;
+                case 'radio-image':
+                    html += radioImageInputGenerate(fieldData);
+                    break;
+                default:
+                    html += defaultInputGenerate(fieldData);
+                    break;
+            }
+        }
+
+        return html;
+    }
+
+    function createTabs(step) {
+        let index = 0;
+        let tabs = {};
+        let navItems = '';
+        let fieldsTabs = '';
+
+        if (step.hasOwnProperty('stepNumber')) {
+            index = step['stepNumber'];
+        }
+
+        if (step.hasOwnProperty('title') && subtitles.indexOf(step['title']) < 0) {
+            subtitles.push(step['title']);
+        }
+
+        if (step.hasOwnProperty('tabs')) {
+            tabs = step['tabs'];
+        } else {
+            console.warn('The step has no tabs (tabs).');
+            return false;
+        }
+
+        if (!Array.isArray(tabs) || tabs.length == 0) {
+            console.warn('tabs is empty or not an array.');
+            return false;
+        }
+
+        maxTabs = tabs.length;
+
+        for (let key in tabs) {
+            let i = parseInt(key);
+            let tab = tabs[key];
+            let active = '';
+            let label = '';
+
+            if (!tab.hasOwnProperty('fields')) {
+                console.warn(`The ${key} tab does not sweep fields.`);
+                continue;
+            }
+
+            let fields = createFields(tab['fields']);
+
+            if ('0' == key) {
+                active = 'active';
+            }
+
+            if (tab.hasOwnProperty('name')) {
+                label = tab['name'];
+            }
+
+            navItems += `<button type="button" class="tab-nav-item ${active}" data-tab="${key}">${label}</button>`;
+            fieldsTabs += `<div class="step-item step-${i}">${fields}</div>`;
+        }
+
+        return {
+            'navs': navItems,
+            'fields': fieldsTabs,
+        };
+    }
+
+    function createSteps(data) {
+        let stepsObj = data['steps'];
+        let stepsCount = stepsObj.length;
+        let form = document.getElementById('steps_form');
+
+        if (!form) {
+            console.error('Елемент з id "steps_form" не знайдено в DOM.');
+            return;
+        }
+
+        maxSteps = stepsCount;
+
+        let selectors = {
+            0: 'oldest-form',
+            1: 'youngest-form',
+        }
+
+        for (let key in stepsObj) {
+            let i = key;
+            let stepHtml = '';
+            let selector = `form-step-${key}`;
+
+            if (selectors.hasOwnProperty(key)) {
+                selector = selectors[key];
+
+                if (key > 0) {
+                    selector += ' d-none';
+                }
+            };
+
+            let stepData = createTabs(stepsObj[i]);
+
+            stepHtml = `<div class="form ${selector}"> 
+                            <div class="tab-nav">${stepData['navs']}</div> 
+                            <div class="step-fields">${stepData['fields']}</div> 
+                            <div class="step-actions">
+                                <button type="button" class="submit-btn" id="continue-btn-${i}">Continue</button> 
+                                <a href="#" class="back-link"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="CreationFlowStep_backIcon__1WNIb"><path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Back to the product page
+                                </a>
+                            </div>
+                        </div>`;
+
+            form.insertAdjacentHTML('beforeend', stepHtml);
+        }
+    }
+
+    function loadFormData() {
+        fetch(`assets/json/${jsonFileName}.json`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const headerTitleElement = document.querySelector('.header-title');
+                if (headerTitleElement && data.bookTitle) {
+                    headerTitleElement.textContent = data.bookTitle;
+                }
+
+                createSteps(data);
+                showStep();
+
+                document.querySelectorAll('#steps_form input[type="radio"]').forEach(function(radio) {
+                    radio.addEventListener('change', function() {
+                        const wrapper = this.closest('.radiogroup, .character-wrap');
+                        const errorMessage = wrapper.querySelector('.error-message');
+    
+                        if (wrapper.classList.contains('error')) {
+                            wrapper.classList.remove('error');
+                            if (errorMessage) {
+                                errorMessage.remove();
+                            }
+                        }
+                    });
+                });
+
+                document.querySelectorAll('#steps_form input[type="text"]').forEach(function(input) {
+                    input.addEventListener('blur', function() {
+                        const isError = validateTextInput(this);
+
+                        if (!isError) {
+                            const wrapper = this.closest('.form-group');
+                            const errorMessage = wrapper.querySelector('.error-message');
+                            this.classList.remove('error');
+                            if (errorMessage) {
+                                errorMessage.remove();
+                            }
+                        }
+                    });
+                });
+
+                document.querySelectorAll('#steps_form input[type="radio"]').forEach(function(input, i) {
+                    input.addEventListener('change', function() {
+                        let yPrefix = isYPrefixAdded ? 'y-' : '';
+                        if (`${yPrefix}gender` === this.getAttribute('name')) {
+                            let mainGender = this.value;
+
+                            let characters = document.querySelectorAll(`#steps_form .step-fields .step-item [name="${yPrefix}characters"]`);
+                            characters.forEach(function(character, indx) {
+                                if (character.dataset.gender === mainGender) {
+                                    let characterItem = character.closest('.character-item');
+                                    characterItem.style.display = 'block';
+                                } else {
+                                    let characterItem = character.closest('.character-item');
+                                    characterItem.style.display = 'none';
+                                };
+                            });
+                            updateAvatarBasedOnGender(this.value);
+                        } else if (`${yPrefix}characters` === this.getAttribute('name')) {
+                            let gender = this.dataset.gender;
+                            console.log(`${yPrefix}characters:: ${gender}`);
+                            let label = document.querySelector(`label[for="${this.id}"]`);
+                            let img = label.querySelector('img');
+                            let src = img.getAttribute('src');
+                            updateAvatarBasedOnGender(gender, src);
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.step-actions .submit-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(event) {
+                        event.preventDefault();
+
+                        setTimeout(() => {
+                            let activeInputs = this.closest('.form').querySelectorAll(`.step-${currentTab} input`);
+                            let isValid = defaultValidateFields(activeInputs);
+
+                            if (isValid) {
+                                ++currentTab;
+                                ++doneTabs;
+                                // Tabs
+                                if (currentTab < maxTabs) {
+                                    showStep();
+                                } else {
+                                    // Steps
+                                    ++doneSteps;
+                                    if (currentStep + 1 < maxSteps) {
+                                        ++currentStep;
+                                        currentTab = 0;
+                                        isYPrefixAdded = true;
+                                        doneTabs = 0;
+                                        updateAvatarBasedOnGender('boy');
+                                        showStep();
+                                    } else {
+                                        // Finished
+                                        window.location.href = './preview.html';
+                                    }
+                                }
+                            } else {
+                                return false;
+                            }
+                        }, 100);
+                    });
+                });
+
+            })
+            .catch(error => {
+                console.error('Error fetching JSON:', error);
+            });
+    }
+
+    loadFormData();
+
+    function showStep() {
+        let index = currentTab;
+
+        document.querySelector('.step-title .step-number').textContent = currentStep + 1;
+        document.querySelector('.step-title .step-count').textContent = maxSteps;
+        document.querySelector('.step-wrap .step-subtitle').textContent = subtitles[currentStep];
+
+        let tabsSteps = document.querySelectorAll('.form');
+
+        tabsSteps.forEach(function(el, idx) {
+            let navs = el.querySelectorAll('.tab-nav-item');
+            let stepFields = el.querySelectorAll('.step-fields .step-item');
+
+            if (idx == currentStep) {
+                el.style.display = 'flex';
+                el.classList.remove('d-none');
+
+                navs.forEach(function(nav, navInx) {
+                    if (navInx == index) {
+                        nav.classList.add('active');
+                        nav.classList.add('done');
+                    } else {
+                        nav.classList.remove('active');
+                    }
+                });
+
+                stepFields.forEach(function(step, stepInx) {
+                    if (step.classList.contains(`step-${index}`)) {
+                        step.style.display = 'block';
+                    } else {
+                        step.style.display = 'none';
+                    }
+                });
+            } else {
+                el.style.display = 'none';
+                el.classList.add('d-none');
+
+                navs.forEach(function(nav, navInx) {
+                    nav.classList.remove('active');
+                });
+            }
+        });
+    }
+
+    function updateAvatarBasedOnGender(gender, src = '') {
+        let previweContainer = document.querySelector('.avatar-preview-container');
+        console.log("Gender:: " + gender);
+        if ('' === src) {
+            let prefix = isYPrefixAdded ? 'y-' : '';
+            src = `assets/img/${gender === 'boy' ? `${prefix}avatar-04.png` : `g-${prefix}avatar-04.png`}`;
+            previweContainer.classList.remove('active');
+        } else {
+            previweContainer.classList.add('active');
+        }
+
+        avatarPreview.setAttribute('src', src);
+    }
+
+    document.addEventListener('click', function(event) {
+        if (event.target.matches('.tab-nav-item')) {
+            currentTab = parseInt(event.target.dataset.tab);
+
+            if (currentTab > doneTabs) {
+                return;
+            }
+
+            showStep();
+        }
+    });
+
+    function validateRadioInputs(inputs) {
+        const errorText = "Oops! Don't forget to fill this in.";
+        const errors = [];
+
+        inputs.forEach(function(input, idx) {
+            const type = input.getAttribute('type');
+            const name = input.getAttribute('name');
+            const errorCheck = errors.indexOf(name);
+
+            if (type === 'radio') {
+                const wrapper = input.closest('.radiogroup, .character-wrap');
+                const checkedLength = wrapper.querySelectorAll('input:checked').length;
+                const errorMessage = wrapper.querySelector('.error-message');
+
+                if (checkedLength > 0) {
+                    wrapper.classList.remove('error');
+                    if (errorMessage) {
+                        errorMessage.remove();
+                    }
+                    if (errorCheck > -1) {
+                        errors.splice(errorCheck, 1);
+                    }
+                } else {
+                    wrapper.classList.add('error');
+                    if (!errorMessage) {
+                        wrapper.insertAdjacentHTML('beforeend', `<span class="error-message">${errorText}</span>`);
+                    }
+                    if (errorCheck === -1) {
+                        errors.push(name);
+                    }
                 }
             }
         });
+        return errors;
     }
-    // select a character (avatar) for oldest child
-    const characterField = data.steps[0].tabs[1].fields.find(field => field.type === 'radio-image');
-    updateCharacterOptions(characterField, 'characters');
-    // select a character (avatar) for younger child
-    const characterField2 = data.steps[1].tabs[1].fields.find(field => field.type === 'radio-image');
-    updateCharacterOptions(characterField2, 'y-characters');
 
-    // Function to update radio buttons for age (handling cases where the value might not be a valid selector)
-    function updateAgeOptions(ageField, ageSelectorName) {
-        const ageOptions = ageField.options;
-        ageOptions.forEach(option => {
-            const ageRadio = document.querySelector(`input[name="${ageSelectorName}"][value="${option.value}"]`);
-            if (ageRadio) {
-                ageRadio.value = option.value;
-                document.querySelector(`label[for="${ageRadio.id}"]`).textContent = option.label;
+    function validateTextInput(input) {
+        const errorText = "Oops! Don't forget to fill this in.";
+        const invalidCharsError = "Whoops! This contains unsupported characters. Try again.";
+        const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/;
+        const name = input.getAttribute('name');
+        const wrapper = input.closest('.form-group');
+        let errorMessage = wrapper.querySelector('.error-message');
+        const value = input.value.trim();
+        let hasError = false;
+        if (value.length === 0) {
+            hasError = true;
+            input.classList.add('error');
+            if (!errorMessage) {
+                wrapper.insertAdjacentHTML('beforeend', `<span class="error-message">${errorText}</span>`);
+            } else {
+                errorMessage.textContent = errorText;
+            }
+        } else {
+            if (name === 'child-name' || name === 'youngest-child-name') {
+                if (!nameRegex.test(value)) {
+                    hasError = true;
+                    input.classList.add('error');
+                    if (!errorMessage) {
+                        wrapper.insertAdjacentHTML('beforeend', `<span class="error-message">${invalidCharsError}</span>`);
+                    } else {
+                        errorMessage.textContent = invalidCharsError;
+                    }
+                }
+            }
+        }
+        if (!hasError) {
+            input.classList.remove('error');
+            if (errorMessage) {
+                errorMessage.remove();
+            }
+        }
+        return hasError;
+    }
+
+    function defaultValidateFields(inputs) {
+        const radioErrors = validateRadioInputs(inputs);
+        const textErrors = [];
+
+        inputs.forEach(function(input, idx) {
+            const type = input.getAttribute('type');
+            if (type === 'text') {
+                if (validateTextInput(input)) {
+                    textErrors.push(input.getAttribute('name'));
+                }
+            }
+        });
+
+        return radioErrors.concat(textErrors).length === 0;
+    }
+
+    // page preview **
+    const layoutButtons = document.querySelectorAll('.layout-button');
+    const pageContainers = document.querySelectorAll('.page-container');
+    const previewContainer = document.querySelector('.preview-container');
+
+    // Function controls the switching of active classes
+    layoutButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            layoutButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            if (this.classList.contains('one-page')) {
+                pageContainers.forEach(container => container.classList.remove('two-page'));
+                previewContainer.classList.remove('preview-two-page');
+            } else if (this.classList.contains('two-page')) {
+                pageContainers.forEach(container => container.classList.add('two-page'));
+                previewContainer.classList.add('preview-two-page');
+            }
+        });
+    });
+
+    // Modal
+    const modalButtons = document.querySelectorAll('.modal-btn');
+    const modal = document.getElementById('modal');
+    const closeModalBtn = document.getElementById('modal-close');
+
+    if (modal) {
+        modalButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                modal.style.display = 'flex';
+            });
+        });
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
             }
         });
     }
-    // Update radio buttons for age (oldest child)
-    const ageField = data.steps[0].tabs[2].fields.find(field => field.type === 'radio');
-    updateAgeOptions(ageField, 'age');
-    // Update radio buttons for age (youngest child)
-    const youngAgeField = data.steps[1].tabs[2].fields.find(field => field.type === 'radio');
-    updateAgeOptions(youngAgeField, 'age-youngest');
-}
-
-// Loading data when the page loads
-document.addEventListener('DOMContentLoaded', loadFormData);
+});

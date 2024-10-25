@@ -2,9 +2,11 @@
   "bookTitle": "Me and My Big Sibling",
   "steps": [
     {
-      "stepNumber": 0,
+      "stepNumber": 1,
       "title": "How many children are you making the book for?",
-
+      "tabs": [
+        {
+          "name": "Children count",
           "fields": [
             {
               "type": "radio",
@@ -15,78 +17,83 @@
                 {"value": "2", "label": "2 Children"}
               ]
             }
+          ]
+        }
       ]
     },
     {
       "conditional": "show(this_step if children_count_id = 1)",
-      "stepNumber": 1,
+      "stepNumber": 2,
       "title": "Let's add the child to the story!",
-
-      "fields": [
+      "tabs": [
         {
-          "type": "text",
-          "label": "What's the child name?",
-          "id": "child_name",
-          "name": "child-name"
-        },
-        {
-          "type": "radio",
-          "id": "child_gender",
-          "label": "Gender",
-          "name": "gender",
-          "options": [
-            {"value": "boy", "label": "Boy"},
-            {"value": "girl", "label": "Girl"}
-          ]
-        },
-        {
-          "type": "radio",
-          "id": "child_age",
-          "label": "Add child age",
-          "name": "age",
-          "options": [
-            {"value": "0", "label": "Under 1"},
-            {"value": "1", "label": "1"},
-            {"value": "2", "label": "2"},
-            {"value": "3", "label": "3"},
-            {"value": "4", "label": "4"},
-            {"value": "5", "label": "5"},
-            {"value": "6", "label": "6"},
-            {"value": "7", "label": "7+"}
-          ]
-        },
-        {
-          "conditional": "show(options['gender'] = 'child_gender')",
-          "type": "radio-image",
-          "label": "Choose child character",
-          "name": "characters",
-          "options": [
-            {"value": "avatar-01", "image": "assets/img/avatar-01.png", "gender": "boy"},
-            {"value": "avatar-02", "image": "assets/img/avatar-02.png", "gender": "boy"},
-            {"value": "avatar-03", "image": "assets/img/avatar-03.png", "gender": "boy"},
-            {"value": "avatar-04", "image": "assets/img/avatar-04.png", "gender": "boy"},
-            {"value": "avatar-05", "image": "assets/img/avatar-05.png", "gender": "boy"},
-            {"value": "avatar-06", "image": "assets/img/avatar-06.png", "gender": "boy"},
-            {"value": "avatar-07", "image": "assets/img/avatar-07.png", "gender": "boy"},
-            {"value": "avatar-08", "image": "assets/img/avatar-08.png", "gender": "boy"},
-            {"value": "avatar-09", "image": "assets/img/avatar-09.png", "gender": "boy"},
-            {"value": "g-avatar-01", "image": "assets/img/g-avatar-01.png", "gender": "girl"},
-            {"value": "g-avatar-02", "image": "assets/img/g-avatar-02.png", "gender": "girl"},
-            {"value": "g-avatar-03", "image": "assets/img/g-avatar-03.png", "gender": "girl"},
-            {"value": "g-avatar-04", "image": "assets/img/g-avatar-04.png", "gender": "girl"},
-            {"value": "g-avatar-05", "image": "assets/img/g-avatar-05.png", "gender": "girl"},
-            {"value": "g-avatar-06", "image": "assets/img/g-avatar-06.png", "gender": "girl"},
-            {"value": "g-avatar-07", "image": "assets/img/g-avatar-07.png", "gender": "girl"},
-            {"value": "g-avatar-08", "image": "assets/img/g-avatar-08.png", "gender": "girl"},
-            {"value": "g-avatar-09", "image": "assets/img/g-avatar-09.png", "gender": "girl"}
+          "name": "Children step 2",
+          "fields": [
+            {
+              "type": "text",
+              "label": "What's the child name?",
+              "id": "child_name",
+              "name": "child-name"
+            },
+            {
+              "type": "radio",
+              "id": "child_gender",
+              "label": "Gender",
+              "name": "gender",
+              "options": [
+                {"value": "boy", "label": "Boy"},
+                {"value": "girl", "label": "Girl"}
+              ]
+            },
+            {
+              "type": "radio",
+              "id": "child_age",
+              "label": "Add child age",
+              "name": "age",
+              "options": [
+                {"value": "0", "label": "Under 1"},
+                {"value": "1", "label": "1"},
+                {"value": "2", "label": "2"},
+                {"value": "3", "label": "3"},
+                {"value": "4", "label": "4"},
+                {"value": "5", "label": "5"},
+                {"value": "6", "label": "6"},
+                {"value": "7", "label": "7+"}
+              ]
+            },
+            {
+              "conditional": "show(options['gender'] = 'child_gender')",
+              "type": "radio-image",
+              "label": "Choose child character",
+              "name": "characters",
+              "options": [
+                {"value": "avatar-01", "image": "assets/img/avatar-01.png", "gender": "boy"},
+                {"value": "avatar-02", "image": "assets/img/avatar-02.png", "gender": "boy"},
+                {"value": "avatar-03", "image": "assets/img/avatar-03.png", "gender": "boy"},
+                {"value": "avatar-04", "image": "assets/img/avatar-04.png", "gender": "boy"},
+                {"value": "avatar-05", "image": "assets/img/avatar-05.png", "gender": "boy"},
+                {"value": "avatar-06", "image": "assets/img/avatar-06.png", "gender": "boy"},
+                {"value": "avatar-07", "image": "assets/img/avatar-07.png", "gender": "boy"},
+                {"value": "avatar-08", "image": "assets/img/avatar-08.png", "gender": "boy"},
+                {"value": "avatar-09", "image": "assets/img/avatar-09.png", "gender": "boy"},
+                {"value": "g-avatar-01", "image": "assets/img/g-avatar-01.png", "gender": "girl"},
+                {"value": "g-avatar-02", "image": "assets/img/g-avatar-02.png", "gender": "girl"},
+                {"value": "g-avatar-03", "image": "assets/img/g-avatar-03.png", "gender": "girl"},
+                {"value": "g-avatar-04", "image": "assets/img/g-avatar-04.png", "gender": "girl"},
+                {"value": "g-avatar-05", "image": "assets/img/g-avatar-05.png", "gender": "girl"},
+                {"value": "g-avatar-06", "image": "assets/img/g-avatar-06.png", "gender": "girl"},
+                {"value": "g-avatar-07", "image": "assets/img/g-avatar-07.png", "gender": "girl"},
+                {"value": "g-avatar-08", "image": "assets/img/g-avatar-08.png", "gender": "girl"},
+                {"value": "g-avatar-09", "image": "assets/img/g-avatar-09.png", "gender": "girl"}
+              ]
+            }
           ]
         }
       ]
-        
     },    
     {
       "conditional": "show(this_step if children_count_id = 2)",
-      "stepNumber": 1,
+      "stepNumber": 2,
       "title": "Let's add the oldest child to the story!",
       "tabs": [
         {
@@ -166,7 +173,7 @@
     },
     {
       "conditional": "show(this_step if children_count_id = 2)",
-      "stepNumber": 2,
+      "stepNumber": 3,
       "title": "Let's add the youngest child to the story!",
       "tabs": [
         {

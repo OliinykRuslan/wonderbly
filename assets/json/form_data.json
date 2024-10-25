@@ -127,7 +127,7 @@
                 {"value": "y-avatar-07", "image": "assets/img/y-avatar-07.png", "gender": "boy"},
                 {"value": "y-avatar-08", "image": "assets/img/y-avatar-08.png", "gender": "boy"},
                 {"value": "y-avatar-09", "image": "assets/img/y-avatar-09.png", "gender": "boy"},
-                {"value": "y-avatar-01", "image": "assets/img/y-avatar-01.png", "gender": "girl"},
+                {"value": "g-y-avatar-01", "image": "assets/img/g-y-avatar-01.png", "gender": "girl"},
                 {"value": "g-y-avatar-02", "image": "assets/img/g-y-avatar-02.png", "gender": "girl"},
                 {"value": "g-y-avatar-03", "image": "assets/img/g-y-avatar-03.png", "gender": "girl"},
                 {"value": "g-y-avatar-04", "image": "assets/img/g-y-avatar-04.png", "gender": "girl"},

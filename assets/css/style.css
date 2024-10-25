@@ -99,6 +99,9 @@ main {
 .avatar-preview-container.active img {
     filter: none;
 }
+.step-item {
+    position: relative;
+}
 .step-fields > .step-item {
     display: none;
 }
@@ -130,7 +133,10 @@ main {
 }
 
 /* 1 */
-.step-1 .form-group {
+.form-group {
+    position: relative;
+}
+.step-0 .form-group {
     margin-bottom: 24px;
 }
 .form-group label {
@@ -150,10 +156,9 @@ main {
 .radiogroup.error .radio-label {
     border-color: #851926;
 }
-
 .radiogroup {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    position: relative;
+    display: flex;
     gap: 0 10px;
 }
 .radio-item {
@@ -166,7 +171,7 @@ main {
 .radio-button {
     position: relative;
     display: flex;
-    flex-grow: 1;
+    flex: 1;
 }
 .radio-label {
     display: flex;
@@ -309,6 +314,9 @@ main {
     color: #851926;
     font-weight: 700;
     padding: 4px 0 0;
+    position: absolute;
+    left: 0;
+    top: 100%;
 }
 
 /* page preview */
