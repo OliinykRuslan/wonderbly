@@ -130,7 +130,8 @@ main {
 }
 
 /* 1 */
-.step-1 .form-group {
+/* .step-1 .form-group { */
+.form-group {
     margin-bottom: 24px;
 }
 .form-group label {
