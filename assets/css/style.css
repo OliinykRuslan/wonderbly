@@ -399,16 +399,8 @@ main {
     height: 100%;
     position: relative;
     aspect-ratio: 1;
-    /* width: 343px; */
     grid-column: span 4;
 }
-/* .preview-page .page-container.two-page {
-    grid-column: span 2;
-}
-.preview-page .page-container.two-page:first-child,
-.preview-page .page-container.two-page:last-child {
-    grid-column: 2 / span 2;
-} */
 .preview-page .page-image-wrap {
     position: relative;
     display: flex;

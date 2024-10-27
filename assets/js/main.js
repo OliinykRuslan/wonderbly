@@ -333,45 +333,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 });
 
-                // document.querySelectorAll('#steps_form input[type="radio"]').forEach(function(input, i) {
-                //     input.addEventListener('change', function() {
-                //         if (`gender` === this.getAttribute('name') || `y-gender` === this.getAttribute('name')) {
-                //             let mainGender = this.value;
-
-                //             let characters = document.querySelectorAll(`#steps_form .step-fields .step-item [name="characters"]`);
-
-                //             characters.forEach(function(character) {
-                //                 if (character.dataset.gender === mainGender) {
-                //                     let characterItem = character.closest('.character-item');
-                //                     characterItem.style.display = 'block';
-                //                 } else {
-                //                     let characterItem = character.closest('.character-item');
-                //                     characterItem.style.display = 'none';
-                //                 };
-                //             });
-
-                //             let yCharacters = document.querySelectorAll(`#steps_form .step-fields .step-item [name="y-characters"]`);
-
-                //             yCharacters.forEach(function(characters) {
-                //                 if (characters.dataset.gender === mainGender) {
-                //                     let characterItem = characters.closest('.character-item');
-                //                     characterItem.style.display = 'block';
-                //                 } else {
-                //                     let characterItem = characters.closest('.character-item');
-                //                     characterItem.style.display = 'none';
-                //                 };
-                //             });
-                //             updateAvatarBasedOnGender(this.value);
-                //         } else if (`characters` === this.getAttribute('name') || `y-characters` === this.getAttribute('name')) {
-                //             let gender = this.dataset.gender;
-                //             let label = document.querySelector(`label[for="${this.id}"]`);
-                //             let img = label.querySelector('img');
-                //             let src = img.getAttribute('src');
-                //             updateAvatarBasedOnGender(gender, src);
-                //         }
-                //     });
-                // });
-
                 document.querySelectorAll('#steps_form input[type="radio"]').forEach(function(input) {
                     input.addEventListener('change', function() {
                         const nameAttr = this.getAttribute('name');
@@ -419,7 +380,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 updateAvatarBasedOnGender(mainGender);
                             }
                 
-                            // updateAvatarBasedOnGender(this.value);
                         } else if (nameAttr === 'characters' || nameAttr === 'y-characters') {
                             let gender = this.dataset.gender;
                             let label = document.querySelector(`label[for="${this.id}"]`);
@@ -557,18 +517,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-
-                // let genderInputName = currentStep === 1 ? 'y-gender' : 'gender';
-                // let selectedGenderInput = el.querySelector(`input[name="${genderInputName}"]:checked`);
-                // let selectedGender = selectedGenderInput ? selectedGenderInput.value : null;
-
-                // if (selectedGender) {
-                //     updateAvatarBasedOnGender(selectedGender);
-                // } else {
-                //     updateAvatarBasedOnGender('boy');
-                // }
-
-                // 
                 let genderInputName = currentStep === 1 ? 'y-gender' : 'gender';
                 let selectedGenderInput = el.querySelector(`input[name="${genderInputName}"]:checked`);
                 let selectedGender = selectedGenderInput ? selectedGenderInput.value : null;
@@ -581,15 +529,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     let characterName = genderInputName === 'gender' ? 'characters' : 'y-characters';
                     let characterValue = formData[characterKey];
-    
                     let genderPrefix = selectedGender === 'girl' ? 'g-' : '';
                     let prefix = (genderInputName === 'y-gender') ? 'y-' : '';
                     let characterFullValue = prefix + genderPrefix + characterValue;
-    
                     let characterRadioInput = el.querySelector(`input[name="${characterName}"][value="${characterFullValue}"]`);
+
                     if (characterRadioInput) {
                         characterRadioInput.checked = true;
                     }
+
                 } else if (selectedGender) {
                     updateAvatarBasedOnGender(selectedGender);
                 } else {
@@ -606,22 +554,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // function updateAvatarBasedOnGender(gender, src = '') {
-    //     let previweContainer = document.querySelector('.avatar-preview-container');
-    //     if ('' === src) {
-    //         let prefix = isYPrefixAdded ? 'y-' : '';
-    //         src = `assets/img/${gender === 'boy' ? `${prefix}avatar-04.png` : `g-${prefix}avatar-04.png`}`;
-    //         previweContainer.classList.remove('active');
-    //     } else {
-    //         previweContainer.classList.add('active');
-    //     }
-
-    //     avatarPreview.setAttribute('src', src);
-    // }
-
-
-
 
     function updateAvatarBasedOnGender(gender, src = '') {
         let previweContainer = document.querySelector('.avatar-preview-container');
