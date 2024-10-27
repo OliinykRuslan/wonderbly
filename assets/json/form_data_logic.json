@@ -1,5 +1,6 @@
 {
   "bookTitle": "Me and My Big Sibling",
+  "stepsCount": 4,
   "steps": [
     {
       "stepNumber": 1,
@@ -22,9 +23,15 @@
       ]
     },
     {
-      "conditional": "show(this_step if children_count_id = 1)",
+      "conditional": [
+            {
+              "fieldId"   : "children_count",
+              "compare"   : "==",
+              "value"     : 1
+            }
+      ],
       "stepNumber": 2,
-      "title": "Let's add the child to the story!",
+      "title": "Let's add the child to the story! FOR 1 CHILDREN ONLY",
       "tabs": [
         {
           "name": "Children step 2",
@@ -64,8 +71,9 @@
             {
               "conditional": "show(options['gender'] = 'child_gender')",
               "type": "radio-image",
-              "label": "Choose child character",
+              "label": "Choose child character $$$",
               "name": "characters",
+              "id": "characters-first",
               "options": [
                 {"value": "avatar-01", "image": "assets/img/avatar-01.png", "gender": "boy"},
                 {"value": "avatar-02", "image": "assets/img/avatar-02.png", "gender": "boy"},
@@ -90,11 +98,17 @@
           ]
         }
       ]
-    },    
+    },
     {
-      "conditional": "show(this_step if children_count_id = 2)",
+      "conditional": [
+        {
+          "fieldId"   : "children_count",
+          "compare"   : "==",
+          "value"     : 2
+        }
+      ],
       "stepNumber": 2,
-      "title": "Let's add the oldest child to the story!",
+      "title": "Let's add the oldest child to the story! FOR 2 CHILDREN ONLY",
       "tabs": [
         {
           "name": "Name",
@@ -125,6 +139,7 @@
               "type": "radio-image",
               "label": "Choose their character",
               "name": "characters",
+              "id": "characters-second",
               "options": [
                 {"value": "avatar-01", "image": "assets/img/avatar-01.png", "gender": "boy"},
                 {"value": "avatar-02", "image": "assets/img/avatar-02.png", "gender": "boy"},
@@ -172,7 +187,6 @@
       ]
     },
     {
-      "conditional": "show(this_step if children_count_id = 2)",
       "stepNumber": 3,
       "title": "Let's add the youngest child to the story!",
       "tabs": [
@@ -215,7 +229,7 @@
                 {"value": "y-avatar-07", "image": "assets/img/y-avatar-07.png", "gender": "boy"},
                 {"value": "y-avatar-08", "image": "assets/img/y-avatar-08.png", "gender": "boy"},
                 {"value": "y-avatar-09", "image": "assets/img/y-avatar-09.png", "gender": "boy"},
-                {"value": "y-avatar-01", "image": "assets/img/y-avatar-01.png", "gender": "girl"},
+                {"value": "g-y-avatar-01", "image": "assets/img/g-y-avatar-01.png", "gender": "girl"},
                 {"value": "g-y-avatar-02", "image": "assets/img/g-y-avatar-02.png", "gender": "girl"},
                 {"value": "g-y-avatar-03", "image": "assets/img/g-y-avatar-03.png", "gender": "girl"},
                 {"value": "g-y-avatar-04", "image": "assets/img/g-y-avatar-04.png", "gender": "girl"},
@@ -245,6 +259,26 @@
                 {"value": "5", "label": "5"},
                 {"value": "6", "label": "6"},
                 {"value": "7", "label": "7+"}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stepNumber": 4,
+      "title": "How many children are you making the book for? -----",
+      "tabs": [
+        {
+          "name": "Children count",
+          "fields": [
+            {
+              "type": "radio",
+              "id": "children_count",
+              "name": "children_count",
+              "options": [
+                {"value": "1", "label": "1 Child"},
+                {"value": "2", "label": "2 Children"}
               ]
             }
           ]
