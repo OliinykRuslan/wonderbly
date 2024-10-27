@@ -18,6 +18,7 @@
               "type": "radio",
               "label": "Gender",
               "name": "gender",
+              "id": "oldest-gender",
               "options": [
                 {"value": "boy", "label": "Boy"},
                 {"value": "girl", "label": "Girl"}
@@ -35,6 +36,7 @@
             {
               "type": "radio-image",
               "name": "characters",
+              "id": "oldest-characters",
               "options": [
                 {"value": "avatar-01", "image": "assets/img/avatar-01.png", "gender": "boy"},
                 {"value": "avatar-02", "image": "assets/img/avatar-02.png", "gender": "boy"},

@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const jsonFileName = 'form_data';
-    let currentStep = 0;
-    let maxSteps = 0;
-    let doneSteps = 0;
-    let currentTab = 0;
-    let maxTabs = 0;
-    let doneTabs = 0;
-    let subtitles = [];
-    let avatarPreview = document.querySelector('#avatar-preview');
-    let isYPrefixAdded = false;
+    const jsonFileName      = 'form_data';
+    let currentStep         = 0;
+    let maxSteps            = 0;
+    let doneSteps           = 0;
+    let tabsInSteps         = {};
+    let conditionalsSteps   = {};
+    let formData            = {};
+    let currentTab          = 0;
+    let maxTabs             = 0;
+    let doneTabs            = 0;
+    let subtitles           = [];
+    let avatarPreview       = document.querySelector('#avatar-preview');
+    let isYPrefixAdded      = false;
 
     function defaultInputGenerate(data) {
         let name = data['name'];
@@ -49,9 +52,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let mainLabel = '';
         let options = {};
         let inputHtml = '';
+        let id        = '';
 
         if (data.hasOwnProperty('name')) {
             name = data['name'];
+        }
+
+        if (data.hasOwnProperty('id')) {
+            id = data['id'];
         }
 
         if (data.hasOwnProperty('label')) {
@@ -72,10 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
             let label = option['label'];
 
             inputHtml += '<div class="radio-button">';
-            inputHtml += `<input class="radio-item radio-input" type="${type}" id="${name}-${value}" name="${name}" value="${value}">`;
+            inputHtml += `<input class="radio-item radio-input" type="${type}" id="${id}-${value}" name="${name}" value="${value}">`;
 
             if (label !== '') {
-                inputHtml += `<label class="radio-label" for="${name}-${value}">${label}</label>`;
+                inputHtml += `<label class="radio-label" for="${id}-${value}">${label}</label>`;
             }
             inputHtml += '</div>';
         }
@@ -90,9 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let mainLabel = '';
         let options = {};
         let inputHtml = '';
+        let id        = '';
 
         if (data.hasOwnProperty('name')) {
             name = data['name'];
+        }
+
+        if (data.hasOwnProperty('id')) {
+            id = data['id'];
         }
 
         if (data.hasOwnProperty('label')) {
@@ -125,9 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             inputHtml += '<div class="character-item">';
-            inputHtml += `<input class="radio-item choose-image-radio" id="${name}-${value}" type="radio" name="${name}" value="${value}" ${dataGender}>`;
+            inputHtml += `<input class="radio-item choose-image-radio" id="${id}-${value}" type="radio" name="${name}" value="${value}" ${dataGender}>`;
 
-            inputHtml += `<label class="choose-image-label" for="${name}-${value}">
+            inputHtml += `<label class="choose-image-label" for="${id}-${value}">
                                 <span class="img-wrap">
                                     <img alt="" src="${image}">
                                 </span>
@@ -188,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
 
-        maxTabs = tabs.length;
+        tabsInSteps[index-1] = tabs.length;
 
         for (let key in tabs) {
             let i = parseInt(key);
@@ -223,11 +236,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createSteps(data) {
         let stepsObj = data['steps'];
-        let stepsCount = stepsObj.length;
+        let stepsCount = data.hasOwnProperty('stepsCount')? data['stepsCount']: stepsObj.length;
         let form = document.getElementById('steps_form');
 
         if (!form) {
-            console.error('Елемент з id "steps_form" не знайдено в DOM.');
+            console.error('Element with id "steps_form" not found in DOM.');
             return;
         }
 
@@ -251,9 +264,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             };
 
+            if( stepsObj[i].hasOwnProperty('conditional') ) {
+                conditionalsSteps[i] = stepsObj[i]['conditional'];
+            }
+
             let stepData = createTabs(stepsObj[i]);
 
-            stepHtml = `<div class="form ${selector}"> 
+            stepHtml = `<div class="form ${selector}" data-index="${i}"> 
                             <div class="tab-nav">${stepData['navs']}</div> 
                             <div class="step-fields">${stepData['fields']}</div> 
                             <div class="step-actions">
@@ -316,29 +333,106 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 });
 
-                document.querySelectorAll('#steps_form input[type="radio"]').forEach(function(input, i) {
-                    input.addEventListener('change', function() {
-                        let yPrefix = isYPrefixAdded ? 'y-' : '';
-                        if (`${yPrefix}gender` === this.getAttribute('name')) {
-                            let mainGender = this.value;
+                // document.querySelectorAll('#steps_form input[type="radio"]').forEach(function(input, i) {
+                //     input.addEventListener('change', function() {
+                //         if (`gender` === this.getAttribute('name') || `y-gender` === this.getAttribute('name')) {
+                //             let mainGender = this.value;
 
-                            let characters = document.querySelectorAll(`#steps_form .step-fields .step-item [name="${yPrefix}characters"]`);
-                            characters.forEach(function(character, indx) {
+                //             let characters = document.querySelectorAll(`#steps_form .step-fields .step-item [name="characters"]`);
+
+                //             characters.forEach(function(character) {
+                //                 if (character.dataset.gender === mainGender) {
+                //                     let characterItem = character.closest('.character-item');
+                //                     characterItem.style.display = 'block';
+                //                 } else {
+                //                     let characterItem = character.closest('.character-item');
+                //                     characterItem.style.display = 'none';
+                //                 };
+                //             });
+
+                //             let yCharacters = document.querySelectorAll(`#steps_form .step-fields .step-item [name="y-characters"]`);
+
+                //             yCharacters.forEach(function(characters) {
+                //                 if (characters.dataset.gender === mainGender) {
+                //                     let characterItem = characters.closest('.character-item');
+                //                     characterItem.style.display = 'block';
+                //                 } else {
+                //                     let characterItem = characters.closest('.character-item');
+                //                     characterItem.style.display = 'none';
+                //                 };
+                //             });
+                //             updateAvatarBasedOnGender(this.value);
+                //         } else if (`characters` === this.getAttribute('name') || `y-characters` === this.getAttribute('name')) {
+                //             let gender = this.dataset.gender;
+                //             let label = document.querySelector(`label[for="${this.id}"]`);
+                //             let img = label.querySelector('img');
+                //             let src = img.getAttribute('src');
+                //             updateAvatarBasedOnGender(gender, src);
+                //         }
+                //     });
+                // });
+
+                document.querySelectorAll('#steps_form input[type="radio"]').forEach(function(input) {
+                    input.addEventListener('change', function() {
+                        const nameAttr = this.getAttribute('name');
+                        const wrapper = this.closest('.radiogroup, .character-wrap');
+                        const stepWrap = this.closest('.step-item');
+                        const errorMessage = stepWrap.querySelector('.error-message');
+                
+                        wrapper.classList.remove('error');
+                        if (errorMessage) {
+                            errorMessage.remove();
+                        }
+                
+                        if (nameAttr === 'gender' || nameAttr === 'y-gender') {
+                            let mainGender = this.value;
+                            let characterName = nameAttr === 'gender' ? 'characters' : 'y-characters';
+                            let characterKey = nameAttr === 'gender' ? 'selectedCharacterValue' : 'selectedYCharacterValue';
+                
+                            let characters = document.querySelectorAll(`#steps_form .step-fields .step-item [name="${characterName}"]`);
+                            characters.forEach(function(character) {
+                                let characterItem = character.closest('.character-item');
                                 if (character.dataset.gender === mainGender) {
-                                    let characterItem = character.closest('.character-item');
                                     characterItem.style.display = 'block';
                                 } else {
-                                    let characterItem = character.closest('.character-item');
                                     characterItem.style.display = 'none';
-                                };
+                                }
                             });
-                            updateAvatarBasedOnGender(this.value);
-                        } else if (`${yPrefix}characters` === this.getAttribute('name')) {
+
+                            if (formData[characterKey]) {
+                                let baseCharacterValue = formData[characterKey];
+                                let genderPrefix = mainGender === 'girl' ? 'g-' : '';
+                                let prefix = (nameAttr === 'y-gender') ? 'y-' : '';
+                                let newCharacterValue = genderPrefix + prefix + baseCharacterValue;
+
+                                let characterSrcKey = nameAttr === 'gender' ? 'selectedCharacterSrc' : 'selectedYCharacterSrc';
+                                let newSrc = `assets/img/${newCharacterValue}.png`;
+                                formData[characterSrcKey] = newSrc;
+
+                                let characterRadioInput = document.querySelector(`#steps_form input[name="${characterName}"][value="${newCharacterValue}"]`);
+                                if (characterRadioInput) {
+                                    characterRadioInput.checked = true;
+                                }
+                
+                                updateAvatarBasedOnGender(mainGender, newSrc);
+                            } else {
+                                updateAvatarBasedOnGender(mainGender);
+                            }
+                
+                            // updateAvatarBasedOnGender(this.value);
+                        } else if (nameAttr === 'characters' || nameAttr === 'y-characters') {
                             let gender = this.dataset.gender;
-                            console.log(`${yPrefix}characters:: ${gender}`);
                             let label = document.querySelector(`label[for="${this.id}"]`);
                             let img = label.querySelector('img');
                             let src = img.getAttribute('src');
+
+                            let characterValue = this.value.replace(/^g-/, '').replace(/^y-/, '');
+                            let characterKey = nameAttr === 'characters' ? 'selectedCharacterValue' : 'selectedYCharacterValue';
+                            formData[characterKey] = characterValue;
+
+                            let characterSrcKey = nameAttr === 'characters' ? 'selectedCharacterSrc' : 'selectedYCharacterSrc';
+                            formData[characterSrcKey] = src;
+
                             updateAvatarBasedOnGender(gender, src);
                         }
                     });
@@ -351,22 +445,28 @@ document.addEventListener('DOMContentLoaded', function() {
                         setTimeout(() => {
                             let activeInputs = this.closest('.form').querySelectorAll(`.step-${currentTab} input`);
                             let isValid = defaultValidateFields(activeInputs);
+                            let navsItems = this.closest('.form').querySelectorAll(`.tab-nav-item`);
 
                             if (isValid) {
                                 ++currentTab;
                                 ++doneTabs;
                                 // Tabs
-                                if (currentTab < maxTabs) {
+                                if (currentTab < navsItems.length) {
                                     showStep();
                                 } else {
                                     // Steps
+                                    let stepNumberInt = document.querySelector('.step-title .step-number').textContent;
+                            
+                                    document.querySelector('.step-title .step-number').textContent = parseInt(stepNumberInt) + 1;
+                                    document.querySelector('.step-wrap .step-subtitle').textContent = subtitles[currentStep];
+
                                     ++doneSteps;
-                                    if (currentStep + 1 < maxSteps) {
-                                        ++currentStep;
+                                    ++currentStep;
+
+                                    if (doneSteps !== maxSteps) {
                                         currentTab = 0;
-                                        isYPrefixAdded = true;
+                                        // isYPrefixAdded = true;
                                         doneTabs = 0;
-                                        updateAvatarBasedOnGender('boy');
                                         showStep();
                                     } else {
                                         // Finished
@@ -383,19 +483,54 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error fetching JSON:', error);
-            });
+        });
     }
 
     loadFormData();
 
+    function applyConditional( index ) {
+        if( !conditionalsSteps.hasOwnProperty(index) ) {
+            return true;
+        }
+
+        let out = true;
+
+        conditionalsSteps[index].forEach( function( conditional ){
+            let compareKey = conditional['fieldId'];
+            let val1 = formData[compareKey];
+            let compareObj = {
+                val1: val1,
+                compare: conditional['compare'],
+                val2: conditional['value']
+            };
+
+            let conditionString = `return (${compareObj.val1} ${compareObj.compare} ${compareObj.val2});`;
+            let conditionFunction = new Function(conditionString);
+
+            if( out ){
+                out = conditionFunction();
+            }
+        } );
+
+        return out;
+    }
+
     function showStep() {
         let index = currentTab;
+        // let stepNumberInt = document.querySelector('.step-title .step-number').textContent;
+        maxTabs = tabsInSteps[currentStep];
 
-        document.querySelector('.step-title .step-number').textContent = currentStep + 1;
+        // document.querySelector('.step-title .step-number').textContent = parseInt(stepNumberInt) + 1;
         document.querySelector('.step-title .step-count').textContent = maxSteps;
         document.querySelector('.step-wrap .step-subtitle').textContent = subtitles[currentStep];
 
         let tabsSteps = document.querySelectorAll('.form');
+
+        if( !applyConditional( currentStep ) ) {
+            ++currentStep;
+            showStep();
+            return;
+        };
 
         tabsSteps.forEach(function(el, idx) {
             let navs = el.querySelectorAll('.tab-nav-item');
@@ -421,39 +556,99 @@ document.addEventListener('DOMContentLoaded', function() {
                         step.style.display = 'none';
                     }
                 });
+
+
+                // let genderInputName = currentStep === 1 ? 'y-gender' : 'gender';
+                // let selectedGenderInput = el.querySelector(`input[name="${genderInputName}"]:checked`);
+                // let selectedGender = selectedGenderInput ? selectedGenderInput.value : null;
+
+                // if (selectedGender) {
+                //     updateAvatarBasedOnGender(selectedGender);
+                // } else {
+                //     updateAvatarBasedOnGender('boy');
+                // }
+
+                // 
+                let genderInputName = currentStep === 1 ? 'y-gender' : 'gender';
+                let selectedGenderInput = el.querySelector(`input[name="${genderInputName}"]:checked`);
+                let selectedGender = selectedGenderInput ? selectedGenderInput.value : null;
+    
+                let characterKey = genderInputName === 'gender' ? 'selectedCharacterValue' : 'selectedYCharacterValue';
+                let characterSrcKey = genderInputName === 'gender' ? 'selectedCharacterSrc' : 'selectedYCharacterSrc';
+    
+                if (formData[characterSrcKey]) {
+                    updateAvatarBasedOnGender(selectedGender, formData[characterSrcKey]);
+
+                    let characterName = genderInputName === 'gender' ? 'characters' : 'y-characters';
+                    let characterValue = formData[characterKey];
+    
+                    let genderPrefix = selectedGender === 'girl' ? 'g-' : '';
+                    let prefix = (genderInputName === 'y-gender') ? 'y-' : '';
+                    let characterFullValue = prefix + genderPrefix + characterValue;
+    
+                    let characterRadioInput = el.querySelector(`input[name="${characterName}"][value="${characterFullValue}"]`);
+                    if (characterRadioInput) {
+                        characterRadioInput.checked = true;
+                    }
+                } else if (selectedGender) {
+                    updateAvatarBasedOnGender(selectedGender);
+                } else {
+                    updateAvatarBasedOnGender('boy');
+                }
+
             } else {
                 el.style.display = 'none';
                 el.classList.add('d-none');
 
-                navs.forEach(function(nav, navInx) {
+                navs.forEach(function(nav) {
                     nav.classList.remove('active');
                 });
             }
         });
     }
 
+    // function updateAvatarBasedOnGender(gender, src = '') {
+    //     let previweContainer = document.querySelector('.avatar-preview-container');
+    //     if ('' === src) {
+    //         let prefix = isYPrefixAdded ? 'y-' : '';
+    //         src = `assets/img/${gender === 'boy' ? `${prefix}avatar-04.png` : `g-${prefix}avatar-04.png`}`;
+    //         previweContainer.classList.remove('active');
+    //     } else {
+    //         previweContainer.classList.add('active');
+    //     }
+
+    //     avatarPreview.setAttribute('src', src);
+    // }
+
+
+
+
     function updateAvatarBasedOnGender(gender, src = '') {
         let previweContainer = document.querySelector('.avatar-preview-container');
-        console.log("Gender:: " + gender);
-        if ('' === src) {
-            let prefix = isYPrefixAdded ? 'y-' : '';
-            src = `assets/img/${gender === 'boy' ? `${prefix}avatar-04.png` : `g-${prefix}avatar-04.png`}`;
-            previweContainer.classList.remove('active');
-        } else {
-            previweContainer.classList.add('active');
+        let prefix = '';
+    
+        if (currentStep === 1) {
+            prefix = 'y-';
         }
-
+        if (src !== '') {
+            previweContainer.classList.add('active');
+        } else {
+            if (!gender) {
+                gender = 'boy';
+            }
+            let genderPrefix = gender === 'girl' ? 'g-' : '';
+            src = `assets/img/${genderPrefix}${prefix}avatar-04.png`;
+            previweContainer.classList.remove('active');
+        }
         avatarPreview.setAttribute('src', src);
     }
 
     document.addEventListener('click', function(event) {
         if (event.target.matches('.tab-nav-item')) {
             currentTab = parseInt(event.target.dataset.tab);
-
             if (currentTab > doneTabs) {
                 return;
             }
-
             showStep();
         }
     });
@@ -473,7 +668,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const errorMessage = wrapper.querySelector('.error-message');
 
                 if (checkedLength > 0) {
+                    let firstCheckedValue = wrapper.querySelectorAll('input:checked')[0].value.trim();
                     wrapper.classList.remove('error');
+                    formData[input.getAttribute('name')] = firstCheckedValue;
                     if (errorMessage) {
                         errorMessage.remove();
                     }
@@ -525,6 +722,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         if (!hasError) {
+            formData[input.getAttribute('name')] = input.value.trim();
             input.classList.remove('error');
             if (errorMessage) {
                 errorMessage.remove();
@@ -534,15 +732,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function defaultValidateFields(inputs) {
-        const radioErrors = validateRadioInputs(inputs);
+        let radioErrors ;
         const textErrors = [];
 
         inputs.forEach(function(input, idx) {
-            const type = input.getAttribute('type');
+            let type = input.getAttribute('type');
+
             if (type === 'text') {
                 if (validateTextInput(input)) {
                     textErrors.push(input.getAttribute('name'));
                 }
+            } else if (type === 'radio') {
+                radioErrors = validateRadioInputs(inputs)
             }
         });
 
